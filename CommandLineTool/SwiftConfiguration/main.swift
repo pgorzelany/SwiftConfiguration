@@ -6,8 +6,8 @@ print(CommandLine.arguments)
 private let configurationKey = "Configuration"
 private let plistFilePath = CommandLine.arguments[1]
 private let configurationPlistPath = CommandLine.arguments[2]
-private let activeEnvironmentName = CommandLine.arguments[3]
-private let outputFilePath = "/Users/mlody/Projects/SwiftConfig/ConfigurationManager.swift" // should be injected through arguments
+private let outputFilePath = CommandLine.arguments[3]
+private let activeEnvironmentName = CommandLine.arguments[4]
 
 let infoPlistModifier = PlistModifier(plistFilePath: plistFilePath, configurationKey: configurationKey)
 let configurationProvider = ConfigurationProvider(configurationPlistPath: configurationPlistPath)
