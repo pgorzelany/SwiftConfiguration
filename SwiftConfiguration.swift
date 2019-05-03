@@ -232,7 +232,6 @@ class PlistModifier {
         return task.terminationStatus
     }
 }
-
 import Foundation
 
 print(CommandLine.arguments)

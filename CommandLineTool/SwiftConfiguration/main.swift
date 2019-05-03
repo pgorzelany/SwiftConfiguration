@@ -1,5 +1,3 @@
-#!/usr/bin/env xcrun --sdk macosx swift
-
 import Foundation
 
 print(CommandLine.arguments)
