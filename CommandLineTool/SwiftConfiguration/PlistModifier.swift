@@ -1,6 +1,8 @@
 
 import Foundation
 
+/// Modifies the plist file by adding the configuration key
+/// The value indicates the current runtime configuration
 class PlistModifier {
 
     // MARK: - Properties

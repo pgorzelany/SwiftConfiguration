@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2AACA86522EF35BA00933B57 /* MessagePrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AACA86422EF35BA00933B57 /* MessagePrinter.swift */; };
+		2AACA86922EF384000933B57 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AACA86822EF384000933B57 /* main.swift */; };
 		5546DF3F227CA06F00695595 /* ConfigurationManagerTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF38227CA06F00695595 /* ConfigurationManagerTemplate.swift */; };
 		5546DF40227CA06F00695595 /* ConfigurationValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF39227CA06F00695595 /* ConfigurationValidator.swift */; };
 		5546DF41227CA06F00695595 /* ConfigurationManagerGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF3A227CA06F00695595 /* ConfigurationManagerGenerator.swift */; };
@@ -14,7 +16,7 @@
 		5546DF43227CA06F00695595 /* ConfigurationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF3C227CA06F00695595 /* ConfigurationError.swift */; };
 		5546DF44227CA06F00695595 /* ConfigurationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF3D227CA06F00695595 /* ConfigurationProvider.swift */; };
 		5546DF45227CA06F00695595 /* PlistModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF3E227CA06F00695595 /* PlistModifier.swift */; };
-		55C4B892227C81C400584680 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4B891227C81C400584680 /* main.swift */; };
+		55C4B892227C81C400584680 /* ArgumentsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4B891227C81C400584680 /* ArgumentsParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +32,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2AACA86422EF35BA00933B57 /* MessagePrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePrinter.swift; sourceTree = "<group>"; };
+		2AACA86822EF384000933B57 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5546DF38227CA06F00695595 /* ConfigurationManagerTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationManagerTemplate.swift; sourceTree = "<group>"; };
 		5546DF39227CA06F00695595 /* ConfigurationValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationValidator.swift; sourceTree = "<group>"; };
 		5546DF3A227CA06F00695595 /* ConfigurationManagerGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationManagerGenerator.swift; sourceTree = "<group>"; };
@@ -38,7 +42,7 @@
 		5546DF3D227CA06F00695595 /* ConfigurationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationProvider.swift; sourceTree = "<group>"; };
 		5546DF3E227CA06F00695595 /* PlistModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistModifier.swift; sourceTree = "<group>"; };
 		55C4B88E227C81C400584680 /* SwiftConfiguration */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftConfiguration; sourceTree = BUILT_PRODUCTS_DIR; };
-		55C4B891227C81C400584680 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		55C4B891227C81C400584680 /* ArgumentsParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgumentsParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,8 @@
 		55C4B890227C81C400584680 /* SwiftConfiguration */ = {
 			isa = PBXGroup;
 			children = (
+				2AACA86822EF384000933B57 /* main.swift */,
+				55C4B891227C81C400584680 /* ArgumentsParser.swift */,
 				5546DF3B227CA06F00695595 /* Configuration.swift */,
 				5546DF3C227CA06F00695595 /* ConfigurationError.swift */,
 				5546DF3A227CA06F00695595 /* ConfigurationManagerGenerator.swift */,
@@ -78,7 +84,7 @@
 				5546DF3D227CA06F00695595 /* ConfigurationProvider.swift */,
 				5546DF39227CA06F00695595 /* ConfigurationValidator.swift */,
 				5546DF3E227CA06F00695595 /* PlistModifier.swift */,
-				55C4B891227C81C400584680 /* main.swift */,
+				2AACA86422EF35BA00933B57 /* MessagePrinter.swift */,
 			);
 			path = SwiftConfiguration;
 			sourceTree = "<group>";
@@ -143,11 +149,13 @@
 				5546DF41227CA06F00695595 /* ConfigurationManagerGenerator.swift in Sources */,
 				5546DF45227CA06F00695595 /* PlistModifier.swift in Sources */,
 				5546DF42227CA06F00695595 /* Configuration.swift in Sources */,
+				2AACA86522EF35BA00933B57 /* MessagePrinter.swift in Sources */,
 				5546DF44227CA06F00695595 /* ConfigurationProvider.swift in Sources */,
 				5546DF40227CA06F00695595 /* ConfigurationValidator.swift in Sources */,
+				2AACA86922EF384000933B57 /* main.swift in Sources */,
 				5546DF43227CA06F00695595 /* ConfigurationError.swift in Sources */,
 				5546DF3F227CA06F00695595 /* ConfigurationManagerTemplate.swift in Sources */,
-				55C4B892227C81C400584680 /* main.swift in Sources */,
+				55C4B892227C81C400584680 /* ArgumentsParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +281,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7NN2553D5U;
+				DEVELOPMENT_TEAM = 7ZG5FS3BDG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -283,7 +291,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7NN2553D5U;
+				DEVELOPMENT_TEAM = 7ZG5FS3BDG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};

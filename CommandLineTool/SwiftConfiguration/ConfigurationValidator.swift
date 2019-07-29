@@ -22,7 +22,7 @@ class ConfigurationValidator {
             if !difference.isEmpty {
                 var warning = ""
                 for key in difference {
-                    warning += "warning: missing key: \(key) in configuration: \(configuration.name)"
+                    warning += "Missing key: \(key) in configuration: \(configuration.name)/n"
                 }
                 throw ConfigurationError(message: warning)
             }
@@ -31,7 +31,7 @@ class ConfigurationValidator {
         let configurationNames = configurations.map({$0.name})
 
         guard configurationNames.contains(where: {[weak self] in $0 == self?.activeEnvironmentName}) else {
-            throw ConfigurationError(message: "error: The configuration file does not contain a configuration for the active configuration (\(activeEnvironmentName))")
+            throw ConfigurationError(message: "The configuration file does not contain a configuration for the active configuration (\(activeEnvironmentName))")
         }
     }
 }
