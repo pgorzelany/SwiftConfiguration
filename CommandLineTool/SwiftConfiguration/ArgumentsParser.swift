@@ -14,16 +14,16 @@ class ArgumentsParser {
             throw ConfigurationError(message: "Insufficient number of arguments provided. Refer to the docs.")
         }
 
-        guard let plistFileUrl = URL(string: CommandLine.arguments[1]) else {
-            throw ConfigurationError(message: "\(CommandLine.arguments[1]) is not a valid URL")
+        guard let plistFileUrl = URL(string: arguments[1]) else {
+            throw ConfigurationError(message: "\(arguments[1]) is not a valid URL")
         }
 
-        guard let configurationPlistFileUrl = URL(string: CommandLine.arguments[2]) else {
-            throw ConfigurationError(message: "\(CommandLine.arguments[2]) is not a valid URL")
+        guard let configurationPlistFileUrl = URL(string: arguments[2]) else {
+            throw ConfigurationError(message: "\(arguments[2]) is not a valid URL")
         }
 
-        guard let outputFileUrl = URL(string: CommandLine.arguments[3]) else {
-            throw ConfigurationError(message: "\(CommandLine.arguments[3]) is not a valid URL")
+        guard let outputFileUrl = URL(string: arguments[3]) else {
+            throw ConfigurationError(message: "\(arguments[3]) is not a valid URL")
         }
 
         return ParsedArguments(plistFileUrl: plistFileUrl,
