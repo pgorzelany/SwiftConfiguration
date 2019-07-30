@@ -17,7 +17,10 @@
 		2A45818222F067F70053B2F9 /* PlistModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF3E227CA06F00695595 /* PlistModifier.swift */; };
 		2A45818322F067F90053B2F9 /* MessagePrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AACA86422EF35BA00933B57 /* MessagePrinter.swift */; };
 		2A45818522F07C910053B2F9 /* ArgumentParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A45818422F07C910053B2F9 /* ArgumentParserTests.swift */; };
-		2A45818722F085570053B2F9 /* Configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A45818622F085570053B2F9 /* Configuration.plist */; };
+		2A45818722F085570053B2F9 /* ValidConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A45818622F085570053B2F9 /* ValidConfiguration.plist */; };
+		2A45818922F091380053B2F9 /* ConfigurationProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A45818822F091380053B2F9 /* ConfigurationProviderTests.swift */; };
+		2A45818B22F096DB0053B2F9 /* ConfigurationValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A45818A22F096DB0053B2F9 /* ConfigurationValidatorTests.swift */; };
+		2A45818D22F0B54A0053B2F9 /* InvalidConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A45818C22F0B54A0053B2F9 /* InvalidConfiguration.plist */; };
 		2AACA86522EF35BA00933B57 /* MessagePrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AACA86422EF35BA00933B57 /* MessagePrinter.swift */; };
 		2AACA86922EF384000933B57 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AACA86822EF384000933B57 /* main.swift */; };
 		5546DF3F227CA06F00695595 /* ConfigurationManagerTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF38227CA06F00695595 /* ConfigurationManagerTemplate.swift */; };
@@ -46,7 +49,10 @@
 		2A45817322F0674B0053B2F9 /* SwiftConfigurationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftConfigurationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A45817722F0674B0053B2F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A45818422F07C910053B2F9 /* ArgumentParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgumentParserTests.swift; sourceTree = "<group>"; };
-		2A45818622F085570053B2F9 /* Configuration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Configuration.plist; sourceTree = "<group>"; };
+		2A45818622F085570053B2F9 /* ValidConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ValidConfiguration.plist; sourceTree = "<group>"; };
+		2A45818822F091380053B2F9 /* ConfigurationProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationProviderTests.swift; sourceTree = "<group>"; };
+		2A45818A22F096DB0053B2F9 /* ConfigurationValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationValidatorTests.swift; sourceTree = "<group>"; };
+		2A45818C22F0B54A0053B2F9 /* InvalidConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = InvalidConfiguration.plist; sourceTree = "<group>"; };
 		2AACA86422EF35BA00933B57 /* MessagePrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePrinter.swift; sourceTree = "<group>"; };
 		2AACA86822EF384000933B57 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5546DF38227CA06F00695595 /* ConfigurationManagerTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationManagerTemplate.swift; sourceTree = "<group>"; };
@@ -82,8 +88,11 @@
 			isa = PBXGroup;
 			children = (
 				2A45817722F0674B0053B2F9 /* Info.plist */,
-				2A45818622F085570053B2F9 /* Configuration.plist */,
+				2A45818C22F0B54A0053B2F9 /* InvalidConfiguration.plist */,
+				2A45818622F085570053B2F9 /* ValidConfiguration.plist */,
 				2A45818422F07C910053B2F9 /* ArgumentParserTests.swift */,
+				2A45818822F091380053B2F9 /* ConfigurationProviderTests.swift */,
+				2A45818A22F096DB0053B2F9 /* ConfigurationValidatorTests.swift */,
 			);
 			path = SwiftConfigurationTests;
 			sourceTree = "<group>";
@@ -201,7 +210,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A45818722F085570053B2F9 /* Configuration.plist in Resources */,
+				2A45818722F085570053B2F9 /* ValidConfiguration.plist in Resources */,
+				2A45818D22F0B54A0053B2F9 /* InvalidConfiguration.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,7 +231,9 @@
 				2A45817D22F067E90053B2F9 /* ConfigurationError.swift in Sources */,
 				2A45818122F067F30053B2F9 /* ConfigurationValidator.swift in Sources */,
 				2A45817F22F067EE0053B2F9 /* ConfigurationManagerTemplate.swift in Sources */,
+				2A45818922F091380053B2F9 /* ConfigurationProviderTests.swift in Sources */,
 				2A45817B22F067CD0053B2F9 /* ArgumentsParser.swift in Sources */,
+				2A45818B22F096DB0053B2F9 /* ConfigurationValidatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

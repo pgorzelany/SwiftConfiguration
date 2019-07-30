@@ -4,16 +4,34 @@
 <dict>
 	<key>Staging</key>
 	<dict>
+		<key>anotherItem3</key>
+		<false/>
+		<key>anotherItem2</key>
+		<date>2019-07-30T15:31:18Z</date>
+		<key>someOtherItem</key>
+		<integer>0</integer>
 		<key>backendUrl</key>
 		<string>example.com</string>
 	</dict>
 	<key>Test</key>
 	<dict>
+		<key>anotherItem3</key>
+		<false/>
+		<key>anotherItem2</key>
+		<date>2019-07-30T15:31:18Z</date>
+		<key>someOtherItem</key>
+		<integer>0</integer>
 		<key>backendUrl</key>
 		<string>example.com</string>
 	</dict>
 	<key>Dev</key>
 	<dict>
+		<key>anotherItem3</key>
+		<false/>
+		<key>anotherItem2</key>
+		<date>2019-07-30T15:31:18Z</date>
+		<key>someOtherItem</key>
+		<integer>0</integer>
 		<key>backendUrl</key>
 		<string>example.com</string>
 	</dict>
