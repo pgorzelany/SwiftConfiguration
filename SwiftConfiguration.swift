@@ -1,5 +1,28 @@
 #!/usr/bin/env xcrun --sdk macosx swift
 
+import Foundation
+
+struct ParsedArguments {
+    let plistFilePath: String
+    let configurationPlistFilePath: String
+    let outputFilePath: String
+    let activeEnvironmentName: String
+}
+
+class ArgumentsParser {
+    func parseArguments(_ arguments: [String]) throws -> ParsedArguments {
+        guard arguments.count == 5 else {
+            #warning("Give instructions how to provide the arguments")
+            throw ConfigurationError(message: "Insufficient number of arguments provided. Refer to the docs.")
+        }
+
+        return ParsedArguments(plistFilePath: CommandLine.arguments[1],
+                               configurationPlistFilePath: CommandLine.arguments[2],
+                               outputFilePath: CommandLine.arguments[3],
+                               activeEnvironmentName: CommandLine.arguments[4])
+    }
+}
+
 struct Configuration {
     let name: String
     let contents: Dictionary<String, Any>
@@ -8,7 +31,6 @@ struct Configuration {
         return Set(contents.keys)
     }
 }
-import Foundation
 
 struct ConfigurationError: LocalizedError {
 
@@ -126,31 +148,30 @@ class ConfigurationManagerTemplate {
         self.configurationKey = configurationKey
     }
 }
-import Foundation
 
 class ConfigurationProvider {
 
     // MARK: - Properties
 
-    private let configurationPlistPath: String
+    private let configurationPlistFilePath: String
 
     // MARK: - Lifecycle
 
-    init(configurationPlistPath: String) {
-        self.configurationPlistPath = configurationPlistPath
+    init(configurationPlistFilePath: String) {
+        self.configurationPlistFilePath = configurationPlistFilePath
     }
 
     // MARK: Methods
 
     func getConfigurations() throws -> [Configuration] {
-        guard let configurationsDictionary = NSDictionary(contentsOfFile: configurationPlistPath) else {
-            throw ConfigurationError(message: "Could not load configuration dictionary at: \(configurationPlistPath)")
+        guard let configurationsDictionary = NSDictionary(contentsOfFile: configurationPlistFilePath) else {
+            throw ConfigurationError(message: "Could not load configuration dictionary at: \(configurationPlistFilePath)")
         }
 
         return try configurationsDictionary.map { configurationDictionary -> Configuration in
             print(configurationDictionary)
             guard let name = configurationDictionary.key as? String, let contents = configurationDictionary.value as? Dictionary<String, Any> else {
-                throw ConfigurationError(message: "The configuration file has invalid format. Please consult the docs.")
+                throw ConfigurationError(message: "The configuration file has invalid format. Please refer to the docs.")
             }
 
             return Configuration(name: name, contents: contents)
@@ -181,7 +202,7 @@ class ConfigurationValidator {
             if !difference.isEmpty {
                 var warning = ""
                 for key in difference {
-                    warning += "warning: missing key: \(key) in configuration: \(configuration.name)"
+                    warning += "Missing key: \(key) in configuration: \(configuration.name)/n"
                 }
                 throw ConfigurationError(message: warning)
             }
@@ -190,13 +211,29 @@ class ConfigurationValidator {
         let configurationNames = configurations.map({$0.name})
 
         guard configurationNames.contains(where: {[weak self] in $0 == self?.activeEnvironmentName}) else {
-            throw ConfigurationError(message: "error: The configuration file does not contain a configuration for the active configuration (\(activeEnvironmentName))")
+            throw ConfigurationError(message: "The configuration file does not contain a configuration for the active configuration (\(activeEnvironmentName))")
         }
     }
 }
 
-import Foundation
+class MessagePrinter {
+    /// The warning will show up in compiler build time warnings
+    func printWarning(_ items: Any...) {
+        for item in items {
+            print("warning: \(item)")
+        }
+    }
 
+    /// The error will show up in compiler build time errors
+    func printError(_ items: Any...) {
+        for item in items {
+            print("error: \(item)")
+        }
+    }
+}
+
+/// Modifies the plist file by adding the configuration key
+/// The value indicates the current runtime configuration
 class PlistModifier {
 
     // MARK: - Properties
@@ -232,27 +269,24 @@ class PlistModifier {
         return task.terminationStatus
     }
 }
-import Foundation
 
 print(CommandLine.arguments)
+private let printer = MessagePrinter()
+private let argumentsParser = ArgumentsParser()
 private let configurationKey = "Configuration"
-private let plistFilePath = CommandLine.arguments[1]
-private let configurationPlistPath = CommandLine.arguments[2]
-private let outputFilePath = CommandLine.arguments[3]
-private let activeEnvironmentName = CommandLine.arguments[4]
-
-let infoPlistModifier = PlistModifier(plistFilePath: plistFilePath, configurationKey: configurationKey)
-let configurationProvider = ConfigurationProvider(configurationPlistPath: configurationPlistPath)
-let configurationValidator = ConfigurationValidator(activeEnvironmentName: activeEnvironmentName)
-let configurationManagerGenerator = ConfigurationManagerGenerator(outputFilePath: outputFilePath, configurationKey: configurationKey)
 
 do {
+    let arguments = try argumentsParser.parseArguments(CommandLine.arguments)
+    let infoPlistModifier = PlistModifier(plistFilePath: arguments.plistFilePath, configurationKey: configurationKey)
+    let configurationProvider = ConfigurationProvider(configurationPlistFilePath: arguments.configurationPlistFilePath)
+    let configurationValidator = ConfigurationValidator(activeEnvironmentName: arguments.activeEnvironmentName)
+    let configurationManagerGenerator = ConfigurationManagerGenerator(outputFilePath: arguments.outputFilePath, configurationKey: configurationKey)
     let configurations = try configurationProvider.getConfigurations()
     try configurationValidator.validateConfigurations(configurations)
-    try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations)
     try infoPlistModifier.addOrSetConfigurationKey()
+    try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations)
     exit(0)
 } catch {
-    print(error.localizedDescription)
-    exit(1)
+    printer.printWarning(error.localizedDescription)
+    exit(0)
 }
