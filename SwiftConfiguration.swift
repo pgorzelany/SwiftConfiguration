@@ -1,24 +1,35 @@
 #!/usr/bin/env xcrun --sdk macosx swift
-
 import Foundation
 
 struct ParsedArguments {
-    let plistFilePath: String
-    let configurationPlistFilePath: String
-    let outputFilePath: String
+    let plistFileUrl: URL
+    let configurationPlistFileUrl: URL
+    let outputFileUrl: URL
     let activeEnvironmentName: String
 }
 
 class ArgumentsParser {
     func parseArguments(_ arguments: [String]) throws -> ParsedArguments {
+        print("parsing arguments")
         guard arguments.count == 5 else {
-            #warning("Give instructions how to provide the arguments")
             throw ConfigurationError(message: "Insufficient number of arguments provided. Refer to the docs.")
         }
 
-        return ParsedArguments(plistFilePath: CommandLine.arguments[1],
-                               configurationPlistFilePath: CommandLine.arguments[2],
-                               outputFilePath: CommandLine.arguments[3],
+        guard let plistFileUrl = URL(string: arguments[1]) else {
+            throw ConfigurationError(message: "\(arguments[1]) is not a valid URL")
+        }
+
+        guard let configurationPlistFileUrl = URL(string: arguments[2]) else {
+            throw ConfigurationError(message: "\(arguments[2]) is not a valid URL")
+        }
+
+        guard let outputFileUrl = URL(string: arguments[3]) else {
+            throw ConfigurationError(message: "\(arguments[3]) is not a valid URL")
+        }
+
+        return ParsedArguments(plistFileUrl: plistFileUrl,
+                               configurationPlistFileUrl: configurationPlistFileUrl,
+                               outputFileUrl: outputFileUrl,
                                activeEnvironmentName: CommandLine.arguments[4])
     }
 }
@@ -49,13 +60,13 @@ class ConfigurationManagerGenerator {
 
     // MARK: - Properties
 
-    private let outputFilePath: String
+    private let outputFileUrl: URL
     private let configurationKey: String
 
     // MARK: - Lifecycle
 
-    init(outputFilePath: String, configurationKey: String) {
-        self.outputFilePath = outputFilePath
+    init(outputFileUrl: URL, configurationKey: String) {
+        self.outputFileUrl = outputFileUrl
         self.configurationKey = configurationKey
     }
 
@@ -63,7 +74,7 @@ class ConfigurationManagerGenerator {
 
     func generateConfigurationManagerFile(for configurations: [Configuration]) throws {
         let template = ConfigurationManagerTemplate(configurations: configurations, configurationKey: configurationKey)
-        try template.configurationManagerString.write(toFile: outputFilePath, atomically: true, encoding: .utf8)
+        try template.configurationManagerString.write(to: outputFileUrl, atomically: true, encoding: .utf8)
     }
 }
 
@@ -151,21 +162,11 @@ class ConfigurationManagerTemplate {
 
 class ConfigurationProvider {
 
-    // MARK: - Properties
-
-    private let configurationPlistFilePath: String
-
-    // MARK: - Lifecycle
-
-    init(configurationPlistFilePath: String) {
-        self.configurationPlistFilePath = configurationPlistFilePath
-    }
-
     // MARK: Methods
 
-    func getConfigurations() throws -> [Configuration] {
-        guard let configurationsDictionary = NSDictionary(contentsOfFile: configurationPlistFilePath) else {
-            throw ConfigurationError(message: "Could not load configuration dictionary at: \(configurationPlistFilePath)")
+    func getConfigurations(at configurationPlistFileUrl: URL) throws -> [Configuration] {
+        guard let configurationsDictionary = NSDictionary(contentsOf: configurationPlistFileUrl) else {
+            throw ConfigurationError(message: "Could not load configuration dictionary at: \(configurationPlistFileUrl)")
         }
 
         return try configurationsDictionary.map { configurationDictionary -> Configuration in
@@ -181,19 +182,9 @@ class ConfigurationProvider {
 
 class ConfigurationValidator {
 
-    // MARK: - Properties
-
-    private let activeEnvironmentName: String
-
-    // MARK: - Lifecycle
-
-    init(activeEnvironmentName: String) {
-        self.activeEnvironmentName = activeEnvironmentName
-    }
-
     // MARK: - Public Methods
 
-    func validateConfigurations(_ configurations: [Configuration]) throws {
+    func validateConfigurations(_ configurations: [Configuration], activeEnvironmentName: String) throws {
         let allKeys = configurations.reduce(Set<String>(), { (result, configuration) -> Set<String> in
                 return result.union(configuration.allKeys)
             })
@@ -202,7 +193,7 @@ class ConfigurationValidator {
             if !difference.isEmpty {
                 var warning = ""
                 for key in difference {
-                    warning += "Missing key: \(key) in configuration: \(configuration.name)/n"
+                    warning += "Missing key: \(key) in configuration: \(configuration.name)\n"
                 }
                 throw ConfigurationError(message: warning)
             }
@@ -210,7 +201,7 @@ class ConfigurationValidator {
 
         let configurationNames = configurations.map({$0.name})
 
-        guard configurationNames.contains(where: {[weak self] in $0 == self?.activeEnvironmentName}) else {
+        guard configurationNames.contains(where: {$0 == activeEnvironmentName}) else {
             throw ConfigurationError(message: "The configuration file does not contain a configuration for the active configuration (\(activeEnvironmentName))")
         }
     }
@@ -238,23 +229,23 @@ class PlistModifier {
 
     // MARK: - Properties
 
-    private let plistFilePath: String
+    private let plistFileUrl: URL
     private let configurationKey: String
     private let configurationValue = "$(CONFIGURATION)"
     private let plistBuddyPath = "/usr/libexec/PlistBuddy"
 
     // MARK: - Lifecycle
 
-    init(plistFilePath: String, configurationKey: String) {
-        self.plistFilePath = plistFilePath
+    init(plistFileUrl: URL, configurationKey: String) {
+        self.plistFileUrl = plistFileUrl
         self.configurationKey = configurationKey
     }
 
     // MARK: - Methods
 
     func addOrSetConfigurationKey() throws {
-        if invokeShell(with: plistBuddyPath, "-c", "Add :\(configurationKey) string \(configurationValue)", "\(plistFilePath)") != 0 {
-            guard invokeShell(with: plistBuddyPath, "-c", "Set :\(configurationKey) \(configurationValue)", "\(plistFilePath)") == 0 else {
+        if invokeShell(with: plistBuddyPath, "-c", "Add :\(configurationKey) string \(configurationValue)", "\(plistFileUrl.path)") != 0 {
+            guard invokeShell(with: plistBuddyPath, "-c", "Set :\(configurationKey) \(configurationValue)", "\(plistFileUrl.path)") == 0 else {
                 throw ConfigurationError(message: "Could not modify InfoPlist file")
             }
         }
@@ -277,12 +268,12 @@ private let configurationKey = "Configuration"
 
 do {
     let arguments = try argumentsParser.parseArguments(CommandLine.arguments)
-    let infoPlistModifier = PlistModifier(plistFilePath: arguments.plistFilePath, configurationKey: configurationKey)
-    let configurationProvider = ConfigurationProvider(configurationPlistFilePath: arguments.configurationPlistFilePath)
-    let configurationValidator = ConfigurationValidator(activeEnvironmentName: arguments.activeEnvironmentName)
-    let configurationManagerGenerator = ConfigurationManagerGenerator(outputFilePath: arguments.outputFilePath, configurationKey: configurationKey)
-    let configurations = try configurationProvider.getConfigurations()
-    try configurationValidator.validateConfigurations(configurations)
+    let infoPlistModifier = PlistModifier(plistFileUrl: arguments.plistFileUrl, configurationKey: configurationKey)
+    let configurationProvider = ConfigurationProvider()
+    let configurationValidator = ConfigurationValidator()
+    let configurationManagerGenerator = ConfigurationManagerGenerator(outputFileUrl: arguments.outputFileUrl, configurationKey: configurationKey)
+    let configurations = try configurationProvider.getConfigurations(at: arguments.configurationPlistFileUrl)
+    try configurationValidator.validateConfigurations(configurations, activeEnvironmentName: arguments.activeEnvironmentName)
     try infoPlistModifier.addOrSetConfigurationKey()
     try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations)
     exit(0)

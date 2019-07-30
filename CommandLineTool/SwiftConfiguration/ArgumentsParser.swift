@@ -10,7 +10,6 @@ struct ParsedArguments {
 class ArgumentsParser {
     func parseArguments(_ arguments: [String]) throws -> ParsedArguments {
         guard arguments.count == 5 else {
-            #warning("Give instructions how to provide the arguments")
             throw ConfigurationError(message: "Insufficient number of arguments provided. Refer to the docs.")
         }
 
