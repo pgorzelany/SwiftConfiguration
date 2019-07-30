@@ -4,19 +4,19 @@ class ConfigurationProvider {
 
     // MARK: - Properties
 
-    private let configurationPlistFilePath: String
+    private let configurationPlistFileUrl: URL
 
     // MARK: - Lifecycle
 
-    init(configurationPlistFilePath: String) {
-        self.configurationPlistFilePath = configurationPlistFilePath
+    init(configurationPlistFileUrl: URL) {
+        self.configurationPlistFileUrl = configurationPlistFileUrl
     }
 
     // MARK: Methods
 
     func getConfigurations() throws -> [Configuration] {
-        guard let configurationsDictionary = NSDictionary(contentsOfFile: configurationPlistFilePath) else {
-            throw ConfigurationError(message: "Could not load configuration dictionary at: \(configurationPlistFilePath)")
+        guard let configurationsDictionary = NSDictionary(contentsOf: configurationPlistFileUrl) else {
+            throw ConfigurationError(message: "Could not load configuration dictionary at: \(configurationPlistFileUrl)")
         }
 
         return try configurationsDictionary.map { configurationDictionary -> Configuration in

@@ -7,23 +7,23 @@ class PlistModifier {
 
     // MARK: - Properties
 
-    private let plistFilePath: String
+    private let plistFileUrl: URL
     private let configurationKey: String
     private let configurationValue = "$(CONFIGURATION)"
     private let plistBuddyPath = "/usr/libexec/PlistBuddy"
 
     // MARK: - Lifecycle
 
-    init(plistFilePath: String, configurationKey: String) {
-        self.plistFilePath = plistFilePath
+    init(plistFileUrl: URL, configurationKey: String) {
+        self.plistFileUrl = plistFileUrl
         self.configurationKey = configurationKey
     }
 
     // MARK: - Methods
 
     func addOrSetConfigurationKey() throws {
-        if invokeShell(with: plistBuddyPath, "-c", "Add :\(configurationKey) string \(configurationValue)", "\(plistFilePath)") != 0 {
-            guard invokeShell(with: plistBuddyPath, "-c", "Set :\(configurationKey) \(configurationValue)", "\(plistFilePath)") == 0 else {
+        if invokeShell(with: plistBuddyPath, "-c", "Add :\(configurationKey) string \(configurationValue)", "\(plistFileUrl.path)") != 0 {
+            guard invokeShell(with: plistBuddyPath, "-c", "Set :\(configurationKey) \(configurationValue)", "\(plistFileUrl.path)") == 0 else {
                 throw ConfigurationError(message: "Could not modify InfoPlist file")
             }
         }

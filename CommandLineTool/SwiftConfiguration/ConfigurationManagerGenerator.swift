@@ -1,15 +1,16 @@
+import Foundation
 
 class ConfigurationManagerGenerator {
 
     // MARK: - Properties
 
-    private let outputFilePath: String
+    private let outputFileUrl: URL
     private let configurationKey: String
 
     // MARK: - Lifecycle
 
-    init(outputFilePath: String, configurationKey: String) {
-        self.outputFilePath = outputFilePath
+    init(outputFileUrl: URL, configurationKey: String) {
+        self.outputFileUrl = outputFileUrl
         self.configurationKey = configurationKey
     }
 
@@ -17,6 +18,6 @@ class ConfigurationManagerGenerator {
 
     func generateConfigurationManagerFile(for configurations: [Configuration]) throws {
         let template = ConfigurationManagerTemplate(configurations: configurations, configurationKey: configurationKey)
-        try template.configurationManagerString.write(toFile: outputFilePath, atomically: true, encoding: .utf8)
+        try template.configurationManagerString.write(to: outputFileUrl, atomically: true, encoding: .utf8)
     }
 }
