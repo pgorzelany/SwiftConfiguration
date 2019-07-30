@@ -12,7 +12,7 @@ class ConfigurationValidator {
             if !difference.isEmpty {
                 var warning = ""
                 for key in difference {
-                    warning += "Missing key: \(key) in configuration: \(configuration.name)/n"
+                    warning += "Missing key: \(key) in configuration: \(configuration.name)\n"
                 }
                 throw ConfigurationError(message: warning)
             }
