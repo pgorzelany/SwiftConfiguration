@@ -4,21 +4,29 @@
 <dict>
 	<key>Debug</key>
 	<dict>
+		<key>otherItem</key>
+		<string>test</string>
 		<key>backendUrl</key>
 		<string>https://SOMEBACKEND.com/</string>
 	</dict>
 	<key>Release</key>
 	<dict>
+		<key>otherItem</key>
+		<string>test</string>
 		<key>backendUrl</key>
 		<string>https://SOMEBACKEND.com/</string>
 	</dict>
 	<key>Staging</key>
 	<dict>
+		<key>otherItem</key>
+		<string>test</string>
 		<key>backendUrl</key>
 		<string>https://SOMEBACKEND.com/</string>
 	</dict>
 	<key>Dev</key>
 	<dict>
+		<key>otherItem</key>
+		<string>test</string>
 		<key>backendUrl</key>
 		<string>https://SOMEBACKEND.com/</string>
 	</dict>

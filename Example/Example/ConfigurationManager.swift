@@ -13,7 +13,8 @@ class ConfigurationManager {
     }
 
     enum ConfigurationKey: String {
-        case backendUrl
+        case otherItem
+		case backendUrl
 		
     }
 
