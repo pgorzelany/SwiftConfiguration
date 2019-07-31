@@ -10,12 +10,12 @@ import XCTest
 
 class ConfigurationProviderTests: XCTestCase {
 
-    let validConfigurationUrl = Bundle(for: ConfigurationProviderTests.self).url(forResource: "ValidConfiguration", withExtension: "plist")!
+    let validConfigurationPath = Bundle(for: ConfigurationProviderTests.self).path(forResource: "ValidConfiguration", ofType: "plist")!
     lazy var configurationProvider = ConfigurationProvider()
 
     func testParsingValidConfigurationFile() {
         do {
-            let configurations = try configurationProvider.getConfigurations(at: validConfigurationUrl)
+            let configurations = try configurationProvider.getConfigurations(at: validConfigurationPath)
             XCTAssert(configurations.count == 3, "There should be 3 configurations")
         } catch {
             XCTAssert(false, "PArsing should not fail")

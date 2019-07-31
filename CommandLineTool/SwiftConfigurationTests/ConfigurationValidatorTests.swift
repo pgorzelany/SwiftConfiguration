@@ -10,14 +10,14 @@ import XCTest
 
 class ConfigurationValidatorTests: XCTestCase {
 
-    let validConfigurationUrl = Bundle(for: ConfigurationProviderTests.self).url(forResource: "ValidConfiguration", withExtension: "plist")!
-    let invalidConfigurationUrl = Bundle(for: ConfigurationProviderTests.self).url(forResource: "InvalidConfiguration", withExtension: "plist")!
+    let validConfigurationPath = Bundle(for: ConfigurationProviderTests.self).path(forResource: "ValidConfiguration", ofType: "plist")!
+    let invalidConfigurationPath = Bundle(for: ConfigurationProviderTests.self).path(forResource: "InvalidConfiguration", ofType: "plist")!
     lazy var configurationProvider = ConfigurationProvider()
     let validator = ConfigurationValidator()
 
     func testValidatingValidConfigurationFile() {
         do {
-            let configurations = try configurationProvider.getConfigurations(at: validConfigurationUrl)
+            let configurations = try configurationProvider.getConfigurations(at: validConfigurationPath)
             let validEnvironments = ["Dev", "Test", "Staging"]
             for environment in validEnvironments {
                 try validator.validateConfigurations(configurations, activeEnvironmentName: environment)
@@ -30,7 +30,7 @@ class ConfigurationValidatorTests: XCTestCase {
 
     func testValidingValidConfigurationFileWithInvalidEnvironment() {
         do {
-            let configurations = try configurationProvider.getConfigurations(at: validConfigurationUrl)
+            let configurations = try configurationProvider.getConfigurations(at: validConfigurationPath)
             try validator.validateConfigurations(configurations, activeEnvironmentName: "InvalidDev")
             XCTAssert(false, "Validation should fail")
         } catch {
@@ -40,7 +40,7 @@ class ConfigurationValidatorTests: XCTestCase {
 
     func testValidatingInvalidConfiguration() {
         do {
-            let configurations = try configurationProvider.getConfigurations(at: invalidConfigurationUrl)
+            let configurations = try configurationProvider.getConfigurations(at: invalidConfigurationPath)
             try validator.validateConfigurations(configurations, activeEnvironmentName: "InvalidDev")
             XCTAssert(false, "Validation should fail")
         } catch {

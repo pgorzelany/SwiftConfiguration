@@ -7,11 +7,11 @@ private let configurationKey = "Configuration"
 
 do {
     let arguments = try argumentsParser.parseArguments(CommandLine.arguments)
-    let infoPlistModifier = PlistModifier(plistFileUrl: arguments.plistFileUrl, configurationKey: configurationKey)
+    let infoPlistModifier = PlistModifier(plistFilePath: arguments.plistFilePath, configurationKey: configurationKey)
     let configurationProvider = ConfigurationProvider()
     let configurationValidator = ConfigurationValidator()
-    let configurationManagerGenerator = ConfigurationManagerGenerator(outputFileUrl: arguments.outputFileUrl, configurationKey: configurationKey)
-    let configurations = try configurationProvider.getConfigurations(at: arguments.configurationPlistFileUrl)
+    let configurationManagerGenerator = ConfigurationManagerGenerator(outputFilePath: arguments.outputFilePath, configurationKey: configurationKey)
+    let configurations = try configurationProvider.getConfigurations(at: arguments.configurationPlistFilePath)
     try configurationValidator.validateConfigurations(configurations, activeEnvironmentName: arguments.activeEnvironmentName)
     try infoPlistModifier.addOrSetConfigurationKey()
     try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations)
