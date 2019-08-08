@@ -29,6 +29,7 @@ struct Configuration {
         return Set(contents.keys)
     }
 }
+import Foundation
 
 struct ConfigurationError: LocalizedError {
 
@@ -42,31 +43,36 @@ struct ConfigurationError: LocalizedError {
         return message
     }
 }
+import Foundation
 
 class ConfigurationManagerGenerator {
 
     // MARK: - Properties
 
+    private let configurationPlistFilePath: String
     private let outputFilePath: String
     private let configurationKey: String
 
     // MARK: - Lifecycle
 
-    init(outputFilePath: String, configurationKey: String) {
+    init(configurationPlistFilePath: String, outputFilePath: String, configurationKey: String) {
         self.outputFilePath = outputFilePath
         self.configurationKey = configurationKey
+        self.configurationPlistFilePath = configurationPlistFilePath
     }
 
     // MARK: - Methods
 
     func generateConfigurationManagerFile(for configurations: [Configuration]) throws {
-        let template = ConfigurationManagerTemplate(configurations: configurations, configurationKey: configurationKey)
+        let template = ConfigurationManagerTemplate(configurations: configurations, configurationKey: configurationKey, configurationPlistFilePath: configurationPlistFilePath)
         try template.configurationManagerString.write(toFile: outputFilePath, atomically: true, encoding: .utf8)
     }
 }
+import Foundation
 
 class ConfigurationManagerTemplate {
 
+    private let configurationDictionaryFileName: String
     private let configurationKey: String
     private let configurationsString: String
     private let configurationsKeysString: String
@@ -76,35 +82,35 @@ class ConfigurationManagerTemplate {
 
     import Foundation
 
-    class ConfigurationManager {
+    class SwiftConfiguration {
 
-        enum Configuration: String {
+        enum Configuration: String, CaseIterable {
             \#(configurationsString)
         }
 
-        enum ConfigurationKey: String {
+        enum ConfigurationKey: String, CaseIterable {
             \#(configurationsKeysString)
         }
 
         // MARK: Shared instance
 
-        static let shared = ConfigurationManager()
+        static let current = SwiftConfiguration()
 
         // MARK: Properties
 
         private let configurationKey = "\#(configurationKey)"
-        private let configurationDictionaryName = "Configuration"
+        private let configurationPlistFileName = "\#(configurationDictionaryFileName)"
 
         let activeConfiguration: Configuration
         private let activeConfigurationDictionary: NSDictionary
 
         // MARK: Lifecycle
 
-        init () {
-            let bundle = Bundle(for: ConfigurationManager.self)
+        init(targetConfiguration: Configuration? = nil) {
+            let bundle = Bundle(for: SwiftConfiguration.self)
             guard let rawConfiguration = bundle.object(forInfoDictionaryKey: configurationKey) as? String,
-                let activeConfiguration = Configuration(rawValue: rawConfiguration),
-                let configurationDictionaryPath = bundle.path(forResource: configurationDictionaryName, ofType: "plist"),
+                let configurationDictionaryPath = bundle.path(forResource: configurationPlistFileName, ofType: nil),
+                let activeConfiguration = targetConfiguration ?? Configuration(rawValue: rawConfiguration),
                 let configurationDictionary = NSDictionary(contentsOfFile: configurationDictionaryPath),
                 let activeEnvironmentDictionary = configurationDictionary[activeConfiguration.rawValue] as? NSDictionary
                 else {
@@ -117,8 +123,8 @@ class ConfigurationManagerTemplate {
 
         // MARK: Methods
 
-        func value(for key: ConfigurationKey) -> String {
-            guard let value = activeConfigurationDictionary[key.rawValue] as? String else {
+        func value<T>(for key: ConfigurationKey) -> T {
+            guard let value = activeConfigurationDictionary[key.rawValue] as? T else {
                 fatalError("No value satysfying requirements")
             }
             return value
@@ -130,7 +136,7 @@ class ConfigurationManagerTemplate {
     }
     """#
 
-    init(configurations: [Configuration], configurationKey: String) {
+    init(configurations: [Configuration], configurationKey: String, configurationPlistFilePath: String) {
         var configurationsString = ""
         var configurationsKeysString = ""
         var allKeys = Set<String>()
@@ -144,8 +150,10 @@ class ConfigurationManagerTemplate {
         self.configurationsString = configurationsString
         self.configurationsKeysString = configurationsKeysString
         self.configurationKey = configurationKey
+        self.configurationDictionaryFileName = (configurationPlistFilePath as NSString).lastPathComponent
     }
 }
+import Foundation
 
 class ConfigurationProvider {
 
@@ -210,6 +218,8 @@ class MessagePrinter {
     }
 }
 
+import Foundation
+
 /// Modifies the plist file by adding the configuration key
 /// The value indicates the current runtime configuration
 class PlistModifier {
@@ -247,18 +257,21 @@ class PlistModifier {
         return task.terminationStatus
     }
 }
+import Foundation
 
 print(CommandLine.arguments)
 private let printer = MessagePrinter()
 private let argumentsParser = ArgumentsParser()
-private let configurationKey = "Configuration"
+private let configurationKey = "SwiftConfiguration.currentConfiguration"
 
 do {
     let arguments = try argumentsParser.parseArguments(CommandLine.arguments)
     let infoPlistModifier = PlistModifier(plistFilePath: arguments.plistFilePath, configurationKey: configurationKey)
     let configurationProvider = ConfigurationProvider()
     let configurationValidator = ConfigurationValidator()
-    let configurationManagerGenerator = ConfigurationManagerGenerator(outputFilePath: arguments.outputFilePath, configurationKey: configurationKey)
+    let configurationManagerGenerator = ConfigurationManagerGenerator(configurationPlistFilePath: arguments.configurationPlistFilePath,
+                                                                      outputFilePath: arguments.outputFilePath,
+                                                                      configurationKey: configurationKey)
     let configurations = try configurationProvider.getConfigurations(at: arguments.configurationPlistFilePath)
     try configurationValidator.validateConfigurations(configurations, activeEnvironmentName: arguments.activeEnvironmentName)
     try infoPlistModifier.addOrSetConfigurationKey()

@@ -18,10 +18,10 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>Configuration</key>
-	<string>$(CONFIGURATION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>SwiftConfiguration.currentConfiguration</key>
+	<string>$(CONFIGURATION)</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

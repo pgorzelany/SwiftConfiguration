@@ -2,41 +2,42 @@
 
 import Foundation
 
-class ConfigurationManager {
+class SwiftConfiguration {
 
-    enum Configuration: String {
+    enum Configuration: String, CaseIterable {
         case Staging
 		case Debug
-		case Dev
 		case Release
 		
     }
 
-    enum ConfigurationKey: String {
-        case otherItem
-		case backendUrl
+    enum ConfigurationKey: String, CaseIterable {
+        case testBool
+		case testString
+		case testDate
+		case testNumber
 		
     }
 
     // MARK: Shared instance
 
-    static let shared = ConfigurationManager()
+    static let current = SwiftConfiguration()
 
     // MARK: Properties
 
-    private let configurationKey = "Configuration"
-    private let configurationDictionaryName = "Configuration"
+    private let configurationKey = "SwiftConfiguration.currentConfiguration"
+    private let configurationPlistFileName = "Configuration.plist"
 
     let activeConfiguration: Configuration
     private let activeConfigurationDictionary: NSDictionary
 
     // MARK: Lifecycle
 
-    init () {
-        let bundle = Bundle(for: ConfigurationManager.self)
+    init(targetConfiguration: Configuration? = nil) {
+        let bundle = Bundle(for: SwiftConfiguration.self)
         guard let rawConfiguration = bundle.object(forInfoDictionaryKey: configurationKey) as? String,
-            let activeConfiguration = Configuration(rawValue: rawConfiguration),
-            let configurationDictionaryPath = bundle.path(forResource: configurationDictionaryName, ofType: "plist"),
+            let configurationDictionaryPath = bundle.path(forResource: configurationPlistFileName, ofType: nil),
+            let activeConfiguration = targetConfiguration ?? Configuration(rawValue: rawConfiguration),
             let configurationDictionary = NSDictionary(contentsOfFile: configurationDictionaryPath),
             let activeEnvironmentDictionary = configurationDictionary[activeConfiguration.rawValue] as? NSDictionary
             else {
@@ -49,8 +50,8 @@ class ConfigurationManager {
 
     // MARK: Methods
 
-    func value(for key: ConfigurationKey) -> String {
-        guard let value = activeConfigurationDictionary[key.rawValue] as? String else {
+    func value<T>(for key: ConfigurationKey) -> T {
+        guard let value = activeConfigurationDictionary[key.rawValue] as? T else {
             fatalError("No value satysfying requirements")
         }
         return value

@@ -3,14 +3,16 @@ import Foundation
 print(CommandLine.arguments)
 private let printer = MessagePrinter()
 private let argumentsParser = ArgumentsParser()
-private let configurationKey = "Configuration"
+private let configurationKey = "SwiftConfiguration.currentConfiguration"
 
 do {
     let arguments = try argumentsParser.parseArguments(CommandLine.arguments)
     let infoPlistModifier = PlistModifier(plistFilePath: arguments.plistFilePath, configurationKey: configurationKey)
     let configurationProvider = ConfigurationProvider()
     let configurationValidator = ConfigurationValidator()
-    let configurationManagerGenerator = ConfigurationManagerGenerator(outputFilePath: arguments.outputFilePath, configurationKey: configurationKey)
+    let configurationManagerGenerator = ConfigurationManagerGenerator(configurationPlistFilePath: arguments.configurationPlistFilePath,
+                                                                      outputFilePath: arguments.outputFilePath,
+                                                                      configurationKey: configurationKey)
     let configurations = try configurationProvider.getConfigurations(at: arguments.configurationPlistFilePath)
     try configurationValidator.validateConfigurations(configurations, activeEnvironmentName: arguments.activeEnvironmentName)
     try infoPlistModifier.addOrSetConfigurationKey()

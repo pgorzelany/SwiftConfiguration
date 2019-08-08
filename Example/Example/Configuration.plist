@@ -4,31 +4,36 @@
 <dict>
 	<key>Debug</key>
 	<dict>
-		<key>otherItem</key>
+		<key>testBool</key>
+		<false/>
+		<key>testNumber</key>
+		<integer>0</integer>
+		<key>testString</key>
 		<string>test</string>
-		<key>backendUrl</key>
-		<string>https://SOMEBACKEND.com/</string>
+		<key>testDate</key>
+		<date>2019-08-08T13:39:30Z</date>
 	</dict>
 	<key>Release</key>
 	<dict>
-		<key>otherItem</key>
-		<string>test</string>
-		<key>backendUrl</key>
-		<string>https://SOMEBACKEND.com/</string>
+		<key>testBool</key>
+		<false/>
+		<key>testNumber</key>
+		<integer>1</integer>
+		<key>testString</key>
+		<string>test1</string>
+		<key>testDate</key>
+		<date>2019-08-09T13:39:30Z</date>
 	</dict>
 	<key>Staging</key>
 	<dict>
-		<key>otherItem</key>
-		<string>test</string>
-		<key>backendUrl</key>
-		<string>https://SOMEBACKEND.com/</string>
-	</dict>
-	<key>Dev</key>
-	<dict>
-		<key>otherItem</key>
-		<string>test</string>
-		<key>backendUrl</key>
-		<string>https://SOMEBACKEND.com/</string>
+		<key>testBool</key>
+		<true/>
+		<key>testNumber</key>
+		<integer>2</integer>
+		<key>testString</key>
+		<string>test2</string>
+		<key>testDate</key>
+		<date>2019-08-10T13:39:30Z</date>
 	</dict>
 </dict>
 </plist>

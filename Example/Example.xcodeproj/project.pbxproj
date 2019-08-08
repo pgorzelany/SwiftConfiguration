@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		551BEDE622F1D51800C1E530 /* ConfigurationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551BEDE522F1D51800C1E530 /* ConfigurationManager.swift */; };
+		2A5F936922FC650F00102CEE /* SwiftConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F936822FC650F00102CEE /* SwiftConfiguration.swift */; };
 		5546DF36227C866800695595 /* Configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5546DF35227C866800695595 /* Configuration.plist */; };
 		55C4B874227C815F00584680 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4B873227C815F00584680 /* AppDelegate.swift */; };
 		55C4B876227C815F00584680 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4B875227C815F00584680 /* ViewController.swift */; };
@@ -17,7 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		551BEDE522F1D51800C1E530 /* ConfigurationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationManager.swift; sourceTree = "<group>"; };
+		2A5F936822FC650F00102CEE /* SwiftConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftConfiguration.swift; sourceTree = "<group>"; };
 		5546DF35227C866800695595 /* Configuration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Configuration.plist; sourceTree = "<group>"; };
 		55C4B870227C815F00584680 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55C4B873227C815F00584680 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 		55C4B872227C815F00584680 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				551BEDE522F1D51800C1E530 /* ConfigurationManager.swift */,
+				2A5F936822FC650F00102CEE /* SwiftConfiguration.swift */,
 				5546DF35227C866800695595 /* Configuration.plist */,
 				55C4B873227C815F00584680 /* AppDelegate.swift */,
 				55C4B875227C815F00584680 /* ViewController.swift */,
@@ -77,10 +77,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 55C4B882227C816200584680 /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
+				5546DF37227C867200695595 /* SwiftConfiguration */,
 				55C4B86C227C815F00584680 /* Sources */,
 				55C4B86D227C815F00584680 /* Frameworks */,
 				55C4B86E227C815F00584680 /* Resources */,
-				5546DF37227C867200695595 /* SwiftConfiguration */,
 			);
 			buildRules = (
 			);
@@ -155,7 +155,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../SwiftConfiguration.swift ${PROJECT_DIR}/${INFOPLIST_FILE} ${PROJECT_DIR}/Example/Configuration.plist ${PROJECT_DIR}/Example/ConfigurationManager.swift $CONFIGURATION\n";
+			shellScript = "../SwiftConfiguration.swift ${PROJECT_DIR}/${INFOPLIST_FILE} ${PROJECT_DIR}/Example/Configuration.plist ${PROJECT_DIR}/Example/SwiftConfiguration.swift $CONFIGURATION\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -165,8 +165,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				55C4B876227C815F00584680 /* ViewController.swift in Sources */,
+				2A5F936922FC650F00102CEE /* SwiftConfiguration.swift in Sources */,
 				55C4B874227C815F00584680 /* AppDelegate.swift in Sources */,
-				551BEDE622F1D51800C1E530 /* ConfigurationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

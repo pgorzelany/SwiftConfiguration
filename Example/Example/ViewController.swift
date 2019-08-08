@@ -13,6 +13,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+
+        let swiftConfiguration = SwiftConfiguration.current
+        for key in SwiftConfiguration.ConfigurationKey.allCases {
+            print(swiftConfiguration.value(for: key))
+        }
     }
 
 
