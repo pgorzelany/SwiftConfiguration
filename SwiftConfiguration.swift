@@ -172,14 +172,19 @@ class ConfigurationManagerTemplate {
 private func getPlistType<T>(for value: T) -> String {
     if value is String {
         return "String"
-    } else if value is Int {
-        return "Int"
-    } else if value is Bool {
-        return "Bool"
+    } else if let numberValue = value as? NSNumber {
+        let boolTypeId = CFBooleanGetTypeID()
+        let valueTypeId = CFGetTypeID(numberValue)
+        if boolTypeId == valueTypeId {
+            return "Bool"
+        } else if value is Int {
+            return "Int"
+        } else if value is Double {
+            return "Double"
+        }
+        fatalError("Unsuported type")
     } else if value is Date {
         return "Date"
-    } else if value is Double {
-        return "Double"
     } else {
         fatalError("Unsuported type")
     }
