@@ -100,7 +100,6 @@ class ConfigurationManagerTemplate {
 }
 
 private func getPlistType<T>(for value: T) -> String {
-    print(type(of: value))
     if value is String {
         return "String"
     } else if value is Int {
