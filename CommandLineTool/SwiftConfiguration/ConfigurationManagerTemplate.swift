@@ -111,6 +111,6 @@ private func getPlistType<T>(for value: T) -> String {
     } else if value is Double {
         return "Double"
     } else {
-        return "Unknown"
+        fatalError("Unsuported type")
     }
 }
