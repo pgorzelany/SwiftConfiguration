@@ -7,7 +7,7 @@
 		<key>testBool</key>
 		<false/>
 		<key>testNumber</key>
-		<integer>0</integer>
+		<integer>1</integer>
 		<key>testString</key>
 		<string>test</string>
 		<key>testDate</key>
@@ -29,7 +29,7 @@
 		<key>testBool</key>
 		<true/>
 		<key>testNumber</key>
-		<integer>2</integer>
+		<integer>1</integer>
 		<key>testString</key>
 		<string>test2</string>
 		<key>testDate</key>

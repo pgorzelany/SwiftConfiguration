@@ -27,9 +27,26 @@ class SwiftConfiguration {
 
     private let configurationKey = "SwiftConfiguration.currentConfiguration"
     private let configurationPlistFileName = "Configuration.plist"
-
-    let activeConfiguration: Configuration
     private let activeConfigurationDictionary: NSDictionary
+    let activeConfiguration: Configuration
+
+    var testDate: Date {
+    return value(for: .testDate)
+}
+
+var testString: String {
+    return value(for: .testString)
+}
+
+var testBool: Int {
+    return value(for: .testBool)
+}
+
+var testNumber: Int {
+    return value(for: .testNumber)
+}
+
+
 
     // MARK: Lifecycle
 
