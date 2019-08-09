@@ -84,9 +84,10 @@ class ConfigurationManagerTemplate {
         if let configuration = configurations.first {
             for (key, value) in configuration.contents {
                 configurationPropertiesString += """
-                var \(key): \(getPlistType(for: value)) {
-                    return value(for: .\(key))
-                }\n\n
+
+                \tvar \(key): \(getPlistType(for: value)) {
+                    \treturn value(for: .\(key))
+                \t}\n\n
                 """
             }
         }
