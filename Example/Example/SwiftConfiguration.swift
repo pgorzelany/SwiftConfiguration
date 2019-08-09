@@ -13,9 +13,9 @@ class SwiftConfiguration {
 
     enum ConfigurationKey: String, CaseIterable {
         case testBool
-		case testString
 		case testDate
 		case testNumber
+		case testString
 		
     }
 
@@ -34,16 +34,16 @@ class SwiftConfiguration {
     return value(for: .testDate)
 }
 
-var testString: String {
-    return value(for: .testString)
-}
-
 var testBool: Int {
     return value(for: .testBool)
 }
 
 var testNumber: Int {
     return value(for: .testNumber)
+}
+
+var testString: String {
+    return value(for: .testString)
 }
 
 

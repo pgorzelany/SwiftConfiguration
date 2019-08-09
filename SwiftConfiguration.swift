@@ -170,7 +170,6 @@ class ConfigurationManagerTemplate {
 }
 
 private func getPlistType<T>(for value: T) -> String {
-    print(type(of: value))
     if value is String {
         return "String"
     } else if value is Int {
@@ -182,7 +181,7 @@ private func getPlistType<T>(for value: T) -> String {
     } else if value is Double {
         return "Double"
     } else {
-        return "Unknown"
+        fatalError("Unsuported type")
     }
 }
 import Foundation
