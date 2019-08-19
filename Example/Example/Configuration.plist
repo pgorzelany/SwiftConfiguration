@@ -6,8 +6,6 @@
 	<dict>
 		<key>testDouble</key>
 		<real>1.4</real>
-		<key>testBool</key>
-		<false/>
 		<key>testNumber</key>
 		<integer>1</integer>
 		<key>testString</key>

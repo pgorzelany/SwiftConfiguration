@@ -16,12 +16,16 @@ do {
                                                                       outputFilePath: arguments.outputFilePath,
                                                                       configurationKey: configurationKey)
     let configurations = try configurationProvider.getConfigurations(at: arguments.configurationPlistFilePath)
-    try configurationValidator.validateConfigurations(configurations, activeConfigurationName: environment.activeConfigurationName)
+    do {
+        try configurationValidator.validateConfigurations(configurations, activeConfigurationName: environment.activeConfigurationName)
+    } catch {
+        printer.printWarning(error.localizedDescription)
+    }
     try infoPlistModifier.addOrSetConfigurationKey()
     let activeConfiguration = try configurationProvider.getConfiguration(at: arguments.configurationPlistFilePath, for: environment.activeConfigurationName)
     try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations, activeConfiguration: activeConfiguration)
     exit(0)
 } catch {
-    printer.printWarning(error.localizedDescription)
+    printer.printError(error.localizedDescription)
     exit(0)
 }
