@@ -3,7 +3,7 @@ class ConfigurationValidator {
 
     // MARK: - Public Methods
 
-    func validateConfigurations(_ configurations: [Configuration], activeEnvironmentName: String) throws {
+    func validateConfigurations(_ configurations: [Configuration], activeConfigurationName: String) throws {
         let allKeys = configurations.reduce(Set<String>(), { (result, configuration) -> Set<String> in
                 return result.union(configuration.allKeys)
             })
@@ -20,8 +20,8 @@ class ConfigurationValidator {
 
         let configurationNames = configurations.map({$0.name})
 
-        guard configurationNames.contains(where: {$0 == activeEnvironmentName}) else {
-            throw ConfigurationError(message: "The configuration file does not contain a configuration for the active configuration (\(activeEnvironmentName))")
+        guard configurationNames.contains(where: {$0 == activeConfigurationName}) else {
+            throw ConfigurationError(message: "The configuration file does not contain a configuration for the active configuration (\(activeConfigurationName))")
         }
     }
 }

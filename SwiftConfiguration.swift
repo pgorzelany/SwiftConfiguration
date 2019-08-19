@@ -2,22 +2,18 @@
 import Foundation
 
 struct ParsedArguments {
-    let plistFilePath: String
     let configurationPlistFilePath: String
     let outputFilePath: String
-    let activeEnvironmentName: String
 }
 
 class ArgumentsParser {
     func parseArguments(_ arguments: [String]) throws -> ParsedArguments {
-        guard arguments.count == 5 else {
+        guard arguments.count == 3 else {
             throw ConfigurationError(message: "Insufficient number of arguments provided. Refer to the docs.")
         }
 
-        return ParsedArguments(plistFilePath: arguments[1],
-                               configurationPlistFilePath: arguments[2],
-                               outputFilePath: arguments[3],
-                               activeEnvironmentName: CommandLine.arguments[4])
+        return ParsedArguments(configurationPlistFilePath: arguments[1],
+                               outputFilePath: arguments[2])
     }
 }
 
@@ -216,7 +212,7 @@ class ConfigurationValidator {
 
     // MARK: - Public Methods
 
-    func validateConfigurations(_ configurations: [Configuration], activeEnvironmentName: String) throws {
+    func validateConfigurations(_ configurations: [Configuration], activeConfigurationName: String) throws {
         let allKeys = configurations.reduce(Set<String>(), { (result, configuration) -> Set<String> in
                 return result.union(configuration.allKeys)
             })
@@ -233,9 +229,38 @@ class ConfigurationValidator {
 
         let configurationNames = configurations.map({$0.name})
 
-        guard configurationNames.contains(where: {$0 == activeEnvironmentName}) else {
-            throw ConfigurationError(message: "The configuration file does not contain a configuration for the active configuration (\(activeEnvironmentName))")
+        guard configurationNames.contains(where: {$0 == activeConfigurationName}) else {
+            throw ConfigurationError(message: "The configuration file does not contain a configuration for the active configuration (\(activeConfigurationName))")
         }
+    }
+}
+import Foundation
+
+struct Environment {
+    let plistFilePath: String
+    let activeConfigurationName: String
+}
+
+class EnvironmentParser {
+
+    private let processEnvironemnt = ProcessInfo.processInfo.environment
+
+    func parseEnvironment() throws -> Environment {
+        guard let activeConfigurationName = processEnvironemnt["CONFIGURATION"] else {
+            throw ConfigurationError(message: "Could not obtain the active configuration from the environment variables")
+        }
+
+        guard let projectDirectory = processEnvironemnt["PROJECT_DIR"] else {
+            throw ConfigurationError(message: "Could not obtain the PROJECT_DIR path from the environment variables")
+        }
+
+        guard let relativePlistFilePath = processEnvironemnt["INFOPLIST_FILE"] else {
+            throw ConfigurationError(message: "Could not obtain the INFOPLIST_FILE path from the environment variables")
+        }
+
+        let plistFilePath = "\(projectDirectory)/\(relativePlistFilePath)"
+
+        return Environment(plistFilePath: plistFilePath, activeConfigurationName: activeConfigurationName)
     }
 }
 
@@ -296,21 +321,23 @@ class PlistModifier {
 }
 import Foundation
 
-print(CommandLine.arguments)
+private let environment = ProcessInfo.processInfo.environment
 private let printer = MessagePrinter()
+private let environmentParser = EnvironmentParser()
 private let argumentsParser = ArgumentsParser()
+private let configurationProvider = ConfigurationProvider()
+private let configurationValidator = ConfigurationValidator()
 private let configurationKey = "SwiftConfiguration.currentConfiguration"
 
 do {
+    let environment = try environmentParser.parseEnvironment()
     let arguments = try argumentsParser.parseArguments(CommandLine.arguments)
-    let infoPlistModifier = PlistModifier(plistFilePath: arguments.plistFilePath, configurationKey: configurationKey)
-    let configurationProvider = ConfigurationProvider()
-    let configurationValidator = ConfigurationValidator()
+    let infoPlistModifier = PlistModifier(plistFilePath: environment.plistFilePath, configurationKey: configurationKey)
     let configurationManagerGenerator = ConfigurationManagerGenerator(configurationPlistFilePath: arguments.configurationPlistFilePath,
                                                                       outputFilePath: arguments.outputFilePath,
                                                                       configurationKey: configurationKey)
     let configurations = try configurationProvider.getConfigurations(at: arguments.configurationPlistFilePath)
-    try configurationValidator.validateConfigurations(configurations, activeEnvironmentName: arguments.activeEnvironmentName)
+    try configurationValidator.validateConfigurations(configurations, activeConfigurationName: environment.activeConfigurationName)
     try infoPlistModifier.addOrSetConfigurationKey()
     try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations)
     exit(0)

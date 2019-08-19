@@ -13,7 +13,7 @@ class ArgumentParserTests: XCTestCase {
     let argumentParser = ArgumentsParser()
 
     func testParsingValidArguments() {
-        let arguments = ["pwd", "/plistfilepath.plist", "/configurationplistfilepath.plist", "/outputFile.swift", "Dev"]
+        let arguments = ["pwd", "/configurationplistfilepath.plist", "/outputFile.swift"]
         do {
             let _ = try argumentParser.parseArguments(arguments)
             XCTAssert(true)
@@ -23,7 +23,7 @@ class ArgumentParserTests: XCTestCase {
     }
 
     func testPArsingIncorrectNumberOfArguments() {
-        let arguments = ["/plistfilepath.plist", "/configurationplistfilepath.plist", "/outputFile.swift", "Dev"]
+        let arguments = ["/configurationplistfilepath.plist", "/outputFile.swift"]
         do {
             let _ = try argumentParser.parseArguments(arguments)
             XCTAssert(false, "parser should fail")

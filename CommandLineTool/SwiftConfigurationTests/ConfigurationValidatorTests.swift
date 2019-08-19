@@ -20,7 +20,7 @@ class ConfigurationValidatorTests: XCTestCase {
             let configurations = try configurationProvider.getConfigurations(at: validConfigurationPath)
             let validEnvironments = ["Dev", "Test", "Staging"]
             for environment in validEnvironments {
-                try validator.validateConfigurations(configurations, activeEnvironmentName: environment)
+                try validator.validateConfigurations(configurations, activeConfigurationName: environment)
                 XCTAssert(true)
             }
         } catch {
@@ -31,7 +31,7 @@ class ConfigurationValidatorTests: XCTestCase {
     func testValidingValidConfigurationFileWithInvalidEnvironment() {
         do {
             let configurations = try configurationProvider.getConfigurations(at: validConfigurationPath)
-            try validator.validateConfigurations(configurations, activeEnvironmentName: "InvalidDev")
+            try validator.validateConfigurations(configurations, activeConfigurationName: "InvalidDev")
             XCTAssert(false, "Validation should fail")
         } catch {
             XCTAssert(true)
@@ -41,7 +41,7 @@ class ConfigurationValidatorTests: XCTestCase {
     func testValidatingInvalidConfiguration() {
         do {
             let configurations = try configurationProvider.getConfigurations(at: invalidConfigurationPath)
-            try validator.validateConfigurations(configurations, activeEnvironmentName: "InvalidDev")
+            try validator.validateConfigurations(configurations, activeConfigurationName: "InvalidDev")
             XCTAssert(false, "Validation should fail")
         } catch {
             print(error.localizedDescription)

@@ -155,7 +155,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../SwiftConfiguration.swift ${PROJECT_DIR}/${INFOPLIST_FILE} ${PROJECT_DIR}/Example/Configuration.plist ${PROJECT_DIR}/Example/SwiftConfiguration.swift $CONFIGURATION\n";
+			shellScript = "../SwiftConfiguration.swift ${PROJECT_DIR}/Example/Configuration.plist ${PROJECT_DIR}/Example/SwiftConfiguration.swift\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

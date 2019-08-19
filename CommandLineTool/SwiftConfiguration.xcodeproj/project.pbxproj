@@ -23,6 +23,7 @@
 		2A45818D22F0B54A0053B2F9 /* InvalidConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A45818C22F0B54A0053B2F9 /* InvalidConfiguration.plist */; };
 		2AACA86522EF35BA00933B57 /* MessagePrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AACA86422EF35BA00933B57 /* MessagePrinter.swift */; };
 		2AACA86922EF384000933B57 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AACA86822EF384000933B57 /* main.swift */; };
+		2AC31F94230AE06900F2F591 /* EnvironmentParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC31F93230AE06900F2F591 /* EnvironmentParser.swift */; };
 		5546DF3F227CA06F00695595 /* ConfigurationManagerTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF38227CA06F00695595 /* ConfigurationManagerTemplate.swift */; };
 		5546DF40227CA06F00695595 /* ConfigurationValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF39227CA06F00695595 /* ConfigurationValidator.swift */; };
 		5546DF41227CA06F00695595 /* ConfigurationManagerGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546DF3A227CA06F00695595 /* ConfigurationManagerGenerator.swift */; };
@@ -55,6 +56,7 @@
 		2A45818C22F0B54A0053B2F9 /* InvalidConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = InvalidConfiguration.plist; sourceTree = "<group>"; };
 		2AACA86422EF35BA00933B57 /* MessagePrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePrinter.swift; sourceTree = "<group>"; };
 		2AACA86822EF384000933B57 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		2AC31F93230AE06900F2F591 /* EnvironmentParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentParser.swift; sourceTree = "<group>"; };
 		5546DF38227CA06F00695595 /* ConfigurationManagerTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationManagerTemplate.swift; sourceTree = "<group>"; };
 		5546DF39227CA06F00695595 /* ConfigurationValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationValidator.swift; sourceTree = "<group>"; };
 		5546DF3A227CA06F00695595 /* ConfigurationManagerGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationManagerGenerator.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				2AACA86822EF384000933B57 /* main.swift */,
+				2AC31F93230AE06900F2F591 /* EnvironmentParser.swift */,
 				55C4B891227C81C400584680 /* ArgumentsParser.swift */,
 				5546DF3B227CA06F00695595 /* Configuration.swift */,
 				5546DF3C227CA06F00695595 /* ConfigurationError.swift */,
@@ -250,6 +253,7 @@
 				2AACA86922EF384000933B57 /* main.swift in Sources */,
 				5546DF43227CA06F00695595 /* ConfigurationError.swift in Sources */,
 				5546DF3F227CA06F00695595 /* ConfigurationManagerTemplate.swift in Sources */,
+				2AC31F94230AE06900F2F591 /* EnvironmentParser.swift in Sources */,
 				55C4B892227C81C400584680 /* ArgumentsParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
