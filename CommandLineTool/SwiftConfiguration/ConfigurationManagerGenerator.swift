@@ -18,8 +18,11 @@ class ConfigurationManagerGenerator {
 
     // MARK: - Methods
 
-    func generateConfigurationManagerFile(for configurations: [Configuration]) throws {
-        let template = ConfigurationManagerTemplate(configurations: configurations, configurationKey: configurationKey, configurationPlistFilePath: configurationPlistFilePath)
+    func generateConfigurationManagerFile(for configurations: [Configuration], activeConfiguration: Configuration) throws {
+        let template = ConfigurationManagerTemplate(configurations: configurations,
+                                                    activeConfiguration: activeConfiguration,
+                                                    configurationKey: configurationKey,
+                                                    configurationPlistFilePath: configurationPlistFilePath)
         try template.configurationManagerString.write(toFile: outputFilePath, atomically: true, encoding: .utf8)
     }
 }

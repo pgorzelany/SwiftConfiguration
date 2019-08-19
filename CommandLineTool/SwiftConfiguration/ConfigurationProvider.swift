@@ -18,4 +18,13 @@ class ConfigurationProvider {
             return Configuration(name: name, contents: contents)
         }
     }
+
+    func getConfiguration(at configurationPlistFilePath: String, for configurationName: String) throws -> Configuration {
+        let configurations = try getConfigurations(at: configurationPlistFilePath)
+        guard let configuration = configurations.first(where: { $0.name == configurationName }) else {
+            throw ConfigurationError(message: "Could not get configuration dictionary for configurationName: \(configurationName)")
+        }
+
+        return configuration
+    }
 }

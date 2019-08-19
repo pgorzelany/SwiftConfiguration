@@ -18,7 +18,8 @@ do {
     let configurations = try configurationProvider.getConfigurations(at: arguments.configurationPlistFilePath)
     try configurationValidator.validateConfigurations(configurations, activeConfigurationName: environment.activeConfigurationName)
     try infoPlistModifier.addOrSetConfigurationKey()
-    try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations)
+    let activeConfiguration = try configurationProvider.getConfiguration(at: arguments.configurationPlistFilePath, for: environment.activeConfigurationName)
+    try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations, activeConfiguration: activeConfiguration)
     exit(0)
 } catch {
     printer.printWarning(error.localizedDescription)

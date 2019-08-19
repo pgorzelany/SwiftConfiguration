@@ -68,7 +68,7 @@ class ConfigurationManagerTemplate {
     }
     """#
 
-    init(configurations: [Configuration], configurationKey: String, configurationPlistFilePath: String) {
+    init(configurations: [Configuration], activeConfiguration: Configuration, configurationKey: String, configurationPlistFilePath: String) {
         var configurationsString = ""
         var configurationsKeysString = ""
         var allKeys = Set<String>()
@@ -81,15 +81,13 @@ class ConfigurationManagerTemplate {
         }
 
         var configurationPropertiesString = ""
-        if let configuration = configurations.first {
-            for (key, value) in configuration.contents {
-                configurationPropertiesString += """
+        for (key, value) in activeConfiguration.contents {
+            configurationPropertiesString += """
 
-                \tvar \(key): \(getPlistType(for: value)) {
-                    \treturn value(for: .\(key))
-                \t}\n\n
-                """
-            }
+            \tvar \(key): \(getPlistType(for: value)) {
+            \t\treturn value(for: .\(key))
+            \t}\n\n
+            """
         }
 
         self.configurationsString = configurationsString

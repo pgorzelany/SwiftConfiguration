@@ -59,8 +59,11 @@ class ConfigurationManagerGenerator {
 
     // MARK: - Methods
 
-    func generateConfigurationManagerFile(for configurations: [Configuration]) throws {
-        let template = ConfigurationManagerTemplate(configurations: configurations, configurationKey: configurationKey, configurationPlistFilePath: configurationPlistFilePath)
+    func generateConfigurationManagerFile(for configurations: [Configuration], activeConfiguration: Configuration) throws {
+        let template = ConfigurationManagerTemplate(configurations: configurations,
+                                                    activeConfiguration: activeConfiguration,
+                                                    configurationKey: configurationKey,
+                                                    configurationPlistFilePath: configurationPlistFilePath)
         try template.configurationManagerString.write(toFile: outputFilePath, atomically: true, encoding: .utf8)
     }
 }
@@ -134,7 +137,7 @@ class ConfigurationManagerTemplate {
     }
     """#
 
-    init(configurations: [Configuration], configurationKey: String, configurationPlistFilePath: String) {
+    init(configurations: [Configuration], activeConfiguration: Configuration, configurationKey: String, configurationPlistFilePath: String) {
         var configurationsString = ""
         var configurationsKeysString = ""
         var allKeys = Set<String>()
@@ -147,15 +150,13 @@ class ConfigurationManagerTemplate {
         }
 
         var configurationPropertiesString = ""
-        if let configuration = configurations.first {
-            for (key, value) in configuration.contents {
-                configurationPropertiesString += """
+        for (key, value) in activeConfiguration.contents {
+            configurationPropertiesString += """
 
-                \tvar \(key): \(getPlistType(for: value)) {
-                    \treturn value(for: .\(key))
-                \t}\n\n
-                """
-            }
+            \tvar \(key): \(getPlistType(for: value)) {
+            \t\treturn value(for: .\(key))
+            \t}\n\n
+            """
         }
 
         self.configurationsString = configurationsString
@@ -205,6 +206,15 @@ class ConfigurationProvider {
 
             return Configuration(name: name, contents: contents)
         }
+    }
+
+    func getConfiguration(at configurationPlistFilePath: String, for configurationName: String) throws -> Configuration {
+        let configurations = try getConfigurations(at: configurationPlistFilePath)
+        guard let configuration = configurations.first(where: { $0.name == configurationName }) else {
+            throw ConfigurationError(message: "Could not get configuration dictionary for configurationName: \(configurationName)")
+        }
+
+        return configuration
     }
 }
 
@@ -339,7 +349,8 @@ do {
     let configurations = try configurationProvider.getConfigurations(at: arguments.configurationPlistFilePath)
     try configurationValidator.validateConfigurations(configurations, activeConfigurationName: environment.activeConfigurationName)
     try infoPlistModifier.addOrSetConfigurationKey()
-    try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations)
+    let activeConfiguration = try configurationProvider.getConfiguration(at: arguments.configurationPlistFilePath, for: environment.activeConfigurationName)
+    try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations, activeConfiguration: activeConfiguration)
     exit(0)
 } catch {
     printer.printWarning(error.localizedDescription)
