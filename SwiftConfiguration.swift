@@ -142,7 +142,8 @@ class ConfigurationManagerTemplate {
         var configurationsKeysString = ""
         var allKeys = Set<String>()
         for configuration in configurations {
-            configurationsString += "case \(configuration.name)\n\t\t"
+            let sanitizedConfigurationName = configuration.name.components(separatedBy: CharacterSet.letters.inverted).joined()
+            configurationsString += "case \(sanitizedConfigurationName) = \"\(configuration.name)\"\n\t\t"
             allKeys = allKeys.union(configuration.allKeys)
         }
         for key in allKeys {
