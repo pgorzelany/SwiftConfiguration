@@ -5,18 +5,18 @@ import Foundation
 class SwiftConfiguration {
 
     enum Configuration: String, CaseIterable {
-        case Staging
-		case Debug
-		case Release
+        case Staging = "Staging"
+		case Debug = "Debug"
+		case Release = "Release"
 		
     }
 
     enum ConfigurationKey: String, CaseIterable {
-        case testDate
-		case testDouble
+        case testNumber
+		case testDate
 		case testBool
 		case testString
-		case testNumber
+		case testDouble
 		
     }
 
@@ -32,11 +32,6 @@ class SwiftConfiguration {
     let activeConfiguration: Configuration
 
     
-	var testNumber: Int {
-		return value(for: .testNumber)
-	}
-
-
 	var testString: String {
 		return value(for: .testString)
 	}
@@ -49,6 +44,11 @@ class SwiftConfiguration {
 
 	var testDouble: Double {
 		return value(for: .testDouble)
+	}
+
+
+	var testNumber: Int {
+		return value(for: .testNumber)
 	}
 
 

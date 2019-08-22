@@ -11,24 +11,26 @@ This script adds safety and convenience by validating the configuration file for
 
 ## Installation
 
-Just copy the SwiftConfiguration.swift file to your project. Since this is a build phase script there is currently no support for Cocoapods/Carthage/SwiftPM. 
+Just copy the SwiftConfigurationGenerator.swift file to your project. Since this is a build phase script there is currently no support for Cocoapods/Carthage/SwiftPM. 
 
 ## Usage
 
-Copy the SwiftConfiguration.swift file into your project structure.
+Copy the SwiftConfigurationGenerator.swift file into your project structure.
 Add a new run script in the Build Phase:
 ```
-<PATH_TO_SWIFTCONFIGURATION.SWIFT>  <PATH_TO_CONFIGURATION_FILE.PLIST> <OUTPUT_PATH>
+<PATH_TO_SWIFTCONFIGURATION.SWIFT>  <PATH_TO_CONFIGURATION_FILE.PLIST> <GENERATED_WRAPPER_OUTPUT_PATH>
 ```
 
 Check the example project for an example build phase script.
 
 Example:
 ```
-../SwiftConfiguration.swift ${PROJECT_DIR}/Example/Configuration.plist ${PROJECT_DIR}/Example/ConfigurationProvider.swift
+../SwiftConfigurationGenerator.swift ${PROJECT_DIR}/Example/Configuration.plist ${PROJECT_DIR}/Example/SwiftConfiguration.generated.swift
 ```
 
 This will take the configuration file at ${PROJECT_DIR}/Example/Configuration.plist (input) validate the configuration file and generate a type safe wrapper over that file at ${PROJECT_DIR}/Example/ConfigurationProvider.swift (output).
+
+Add the generated file to your project sources so you can use it in your code.
 
 ## Configuration file format
 
@@ -53,4 +55,4 @@ ROOT:
 
 Currently only plist configuration files are supported but if there is demand I can easily add JSON support.
 
-# How it works (a deep dive)
+## How it works (a deep dive)
