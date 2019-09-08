@@ -2,7 +2,15 @@
 
 A build phase script for fetching, validating and generating a Swift wrapper over configuration files in iOS projects.
 
-## The problem
+### Table of content
+- [Why](#why)
+- [Installation](#installation)
+- [Project setup](#project-setup)
+- [Usage](#usage)
+- [Configuration file format](#configuration-file-format)
+- [How it works](#how-it-works)
+
+## Why
 Almost every app nowadays needs to have multiple configurations(environments). Usually we have a dev/staging/prod environment and we define variables that vary between the environments. A good example would be the backend url that will be defferent for each configuration.
 
 The variables are usually stored in a plist/json file which the app accesses through a string API. This is error prone and may crash at runtime if you make a typo of the variable name or you are trying to access a variable that does not exist in the file. There is no safety and no autocomplete involved when accessing the variables.
@@ -34,15 +42,15 @@ Add a new run script in the Build Phase:
 Check the example project for an example build phase script.
 
 Example:
-```
-../SwiftConfigurationGenerator.swift ${PROJECT_DIR}/Example/Configuration.plist ${PROJECT_DIR}/Example/ConfigurationProvider.generated.swift
-```
+![Build phase setup](./Screenshots/build-phase.png?raw=true "Build phase setup")
 
-This will take the configuration file at ${PROJECT_DIR}/Example/Configuration.plist (input) validate the configuration file and generate a type safe wrapper over that file at ${PROJECT_DIR}/Example/ConfigurationProvider.generated.swift (output).
-
-![Code generation](./Screenshots/code-generation.gif?raw=true "Code generation")
+This will take the configuration file at ${PROJECT_DIR}/Example/Configuration.plist (input) validate the configuration file and generate a type safe wrapper over that file at ${PROJECT_DIR}/Example/ConfigurationProvider.generated.swift (output). 
 
 **Don't forget to add the generated file to your project sources so you can use it in your code!**
+
+Example code generation shown below.
+
+![Code generation](./Screenshots/code-generation.gif?raw=true "Code generation")
 
 ## Configuration file format
 
@@ -65,6 +73,7 @@ ROOT:
     ....
 ```
 
-Currently only plist configuration files are supported but if there is demand I can easily add JSON support.
+Currently only plist configuration files are supported but if there is demand I can easily add JSON or xcconfig file support.
 
-## How it works (a deep dive)
+## How it works
+
