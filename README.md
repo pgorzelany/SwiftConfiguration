@@ -76,4 +76,13 @@ ROOT:
 Currently only plist configuration files are supported but if there is demand I can easily add JSON or xcconfig file support.
 
 ## How it works
+I described my take on configuration files in [my blog](https://medium.com/@piotr.gorzelany/managing-configuration-dependent-variables-in-ios-projects-b68bfb0f9689). That approach worked but it wasn't very safe since the I was relying on a stringy api for fetching the configuration variables from the files. It was also hard to use since there was no autocomplete.
+This script automates some of the setup described in my blog and also validates the configuration files for missing variables and then generates a Swift wrapper class which you can use to safely access the variables using autocomplete.
 
+It does this in a few steps
+-  It modifies the Info.plist file to inject a property ($CONFIGURATION) that will be resolved to the current configuration name at runtime
+- It parses the configuration file and turns it into a custom data data structure
+- It validates the configuration for missing variables. For example if you have a backend)url defined in your Dev configuration you should also have it defined in other configurations to safely use it. The script makes sure all the variables are well defined
+- After the configuration file passes validation the script generates a Swift wrapper class which you can use to fetch the variables with autocomplete. You don't have to worry about name typos, variables missing in the file or wrong type casts.
+
+** This is the first iteration of this tool and I see a lot of potential to further improve it. If you have any suggestions don't hesitate to open an issue.
