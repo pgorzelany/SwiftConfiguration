@@ -2,7 +2,7 @@
 
 A build phase script for fetching, validating and generating a Swift wrapper over configuration files in iOS projects.
 
-### Table of content
+### Table of contents
 - [Why](#why)
 - [Installation](#installation)
 - [Project setup](#project-setup)
