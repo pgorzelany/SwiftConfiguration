@@ -17,6 +17,9 @@ The variables are usually stored in a plist/json file which the app accesses thr
 
 **This script adds safety and convenience by validating the configuration file for errors and generating a safe Swift wrapper class which you can then use to access the variables at runtime.**
 
+Example code generation:
+![Code generation](./Screenshots/code-generation.gif?raw=true "Code generation")
+
 ## Installation
 
 Just copy the SwiftConfigurationGenerator.swift file to your project. 
@@ -47,10 +50,6 @@ Example:
 This will take the configuration file at ${PROJECT_DIR}/Example/Configuration.plist (input) validate the configuration file and generate a type safe wrapper over that file at ${PROJECT_DIR}/Example/ConfigurationProvider.generated.swift (output). 
 
 **Don't forget to add the generated file to your project sources so you can use it in your code!**
-
-Example code generation shown below.
-
-![Code generation](./Screenshots/code-generation.gif?raw=true "Code generation")
 
 ## Configuration file format
 
