@@ -1,13 +1,14 @@
 #!/usr/bin/env xcrun --sdk macosx swift
-import Foundation
-
-struct ParsedArguments {
-    let configurationPlistFilePath: String
-    let outputFilePath: String
+public struct ParsedArguments {
+    public let configurationPlistFilePath: String
+    public let outputFilePath: String
 }
 
-class ArgumentsParser {
-    func parseArguments(_ arguments: [String]) throws -> ParsedArguments {
+public class ArgumentsParser {
+
+    public init() {}
+
+    public func parseArguments(_ arguments: [String]) throws -> ParsedArguments {
         guard arguments.count == 3 else {
             throw ConfigurationError(message: "Insufficient number of arguments provided. Refer to the docs.")
         }
@@ -16,8 +17,8 @@ class ArgumentsParser {
                                outputFilePath: arguments[2])
     }
 }
-
-struct Configuration {
+public struct Configuration {
+    
     let name: String
     let contents: Dictionary<String, Any>
 
@@ -27,7 +28,7 @@ struct Configuration {
 }
 import Foundation
 
-struct ConfigurationError: LocalizedError {
+public struct ConfigurationError: LocalizedError {
 
     private let message: String
 
@@ -35,13 +36,13 @@ struct ConfigurationError: LocalizedError {
         self.message = message
     }
 
-    var errorDescription: String? {
+    public var errorDescription: String? {
         return message
     }
 }
 import Foundation
 
-class ConfigurationManagerGenerator {
+public class ConfigurationManagerGenerator {
 
     // MARK: - Properties
 
@@ -51,7 +52,7 @@ class ConfigurationManagerGenerator {
 
     // MARK: - Lifecycle
 
-    init(configurationPlistFilePath: String, outputFilePath: String, configurationKey: String) {
+    public init(configurationPlistFilePath: String, outputFilePath: String, configurationKey: String) {
         self.outputFilePath = outputFilePath
         self.configurationKey = configurationKey
         self.configurationPlistFilePath = configurationPlistFilePath
@@ -59,7 +60,7 @@ class ConfigurationManagerGenerator {
 
     // MARK: - Methods
 
-    func generateConfigurationManagerFile(for configurations: [Configuration], activeConfiguration: Configuration) throws {
+    public func generateConfigurationManagerFile(for configurations: [Configuration], activeConfiguration: Configuration) throws {
         let template = ConfigurationManagerTemplate(configurations: configurations,
                                                     activeConfiguration: activeConfiguration,
                                                     configurationKey: configurationKey,
@@ -191,11 +192,13 @@ private func getPlistType<T>(for value: T) -> String {
 }
 import Foundation
 
-class ConfigurationProvider {
+public class ConfigurationProvider {
+
+    public init() {}
 
     // MARK: Methods
 
-    func getConfigurations(at configurationPlistFilePath: String) throws -> [Configuration] {
+    public func getConfigurations(at configurationPlistFilePath: String) throws -> [Configuration] {
         guard let configurationsDictionary = NSDictionary(contentsOfFile: configurationPlistFilePath) else {
             throw ConfigurationError(message: "Could not load configuration dictionary at: \(configurationPlistFilePath)")
         }
@@ -210,7 +213,7 @@ class ConfigurationProvider {
         }
     }
 
-    func getConfiguration(at configurationPlistFilePath: String, for configurationName: String) throws -> Configuration {
+    public func getConfiguration(at configurationPlistFilePath: String, for configurationName: String) throws -> Configuration {
         let configurations = try getConfigurations(at: configurationPlistFilePath)
         guard let configuration = configurations.first(where: { $0.name == configurationName }) else {
             throw ConfigurationError(message: "Could not get configuration dictionary for configurationName: \(configurationName)")
@@ -220,11 +223,13 @@ class ConfigurationProvider {
     }
 }
 
-class ConfigurationValidator {
+public class ConfigurationValidator {
+
+    public init() {}
 
     // MARK: - Public Methods
 
-    func validateConfigurations(_ configurations: [Configuration], activeConfigurationName: String) throws {
+    public func validateConfigurations(_ configurations: [Configuration], activeConfigurationName: String) throws {
         let allKeys = configurations.reduce(Set<String>(), { (result, configuration) -> Set<String> in
                 return result.union(configuration.allKeys)
             })
@@ -248,16 +253,18 @@ class ConfigurationValidator {
 }
 import Foundation
 
-struct Environment {
-    let plistFilePath: String
-    let activeConfigurationName: String
+public struct Environment {
+    public let plistFilePath: String
+    public let activeConfigurationName: String
 }
 
-class EnvironmentParser {
+public class EnvironmentParser {
+
+    public init() {}
 
     private let processEnvironemnt = ProcessInfo.processInfo.environment
 
-    func parseEnvironment() throws -> Environment {
+    public func parseEnvironment() throws -> Environment {
         guard let activeConfigurationName = processEnvironemnt["CONFIGURATION"] else {
             throw ConfigurationError(message: "Could not obtain the active configuration from the environment variables")
         }
@@ -276,16 +283,19 @@ class EnvironmentParser {
     }
 }
 
-class MessagePrinter {
+public class MessagePrinter {
+
+    public init() {}
+
     /// The warning will show up in compiler build time warnings
-    func printWarning(_ items: Any...) {
+    public func printWarning(_ items: Any...) {
         for item in items {
             print("warning: \(item)")
         }
     }
 
     /// The error will show up in compiler build time errors
-    func printError(_ items: Any...) {
+    public func printError(_ items: Any...) {
         for item in items {
             print("error: \(item)")
         }
@@ -296,7 +306,7 @@ import Foundation
 
 /// Modifies the plist file by adding the configuration key
 /// The value indicates the current runtime configuration
-class PlistModifier {
+public class PlistModifier {
 
     // MARK: - Properties
 
@@ -307,14 +317,14 @@ class PlistModifier {
 
     // MARK: - Lifecycle
 
-    init(plistFilePath: String, configurationKey: String) {
+    public init(plistFilePath: String, configurationKey: String) {
         self.plistFilePath = plistFilePath
         self.configurationKey = configurationKey
     }
 
     // MARK: - Methods
 
-    func addOrSetConfigurationKey() throws {
+    public func addOrSetConfigurationKey() throws {
         if invokeShell(with: plistBuddyPath, "-c", "Add :\(configurationKey) string \(configurationValue)", "\(plistFilePath)") != 0 {
             guard invokeShell(with: plistBuddyPath, "-c", "Set :\(configurationKey) \(configurationValue)", "\(plistFilePath)") == 0 else {
                 throw ConfigurationError(message: "Could not modify InfoPlist file")
@@ -332,6 +342,7 @@ class PlistModifier {
     }
 }
 import Foundation
+
 
 private let environment = ProcessInfo.processInfo.environment
 private let printer = MessagePrinter()

@@ -13,11 +13,11 @@ class SwiftConfiguration {
     }
 
     enum ConfigurationKey: String, CaseIterable {
-        case testString
+        case testDate
 		case testDouble
-		case testBool
+		case testString
 		case testNumber
-		case testDate
+		case testBool
 		
     }
 
@@ -33,23 +33,23 @@ class SwiftConfiguration {
     let activeConfiguration: Configuration
 
     
-	var testDate: Date {
-		return value(for: .testDate)
-	}
-
-
 	var testDouble: Double {
 		return value(for: .testDouble)
 	}
 
 
-	var testNumber: Int {
-		return value(for: .testNumber)
+	var testString: String {
+		return value(for: .testString)
 	}
 
 
-	var testString: String {
-		return value(for: .testString)
+	var testDate: Date {
+		return value(for: .testDate)
+	}
+
+
+	var testNumber: Int {
+		return value(for: .testNumber)
 	}
 
 
