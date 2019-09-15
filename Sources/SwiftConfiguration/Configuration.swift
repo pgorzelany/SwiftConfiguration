@@ -1,5 +1,5 @@
-
-struct Configuration {
+public struct Configuration {
+    
     let name: String
     let contents: Dictionary<String, Any>
 

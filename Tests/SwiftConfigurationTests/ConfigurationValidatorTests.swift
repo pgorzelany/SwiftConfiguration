@@ -7,11 +7,12 @@
 //
 
 import XCTest
+@testable import SwiftConfiguration
 
 class ConfigurationValidatorTests: XCTestCase {
 
-    let validConfigurationPath = Bundle(for: ConfigurationProviderTests.self).path(forResource: "ValidConfiguration", ofType: "plist")!
-    let invalidConfigurationPath = Bundle(for: ConfigurationProviderTests.self).path(forResource: "InvalidConfiguration", ofType: "plist")!
+    let validConfigurationPath = "./Tests/SwiftConfigurationTests/ValidConfiguration.plist"
+    let invalidConfigurationPath = "./Tests/SwiftConfigurationTests/InvalidConfiguration.plist"
     lazy var configurationProvider = ConfigurationProvider()
     let validator = ConfigurationValidator()
 

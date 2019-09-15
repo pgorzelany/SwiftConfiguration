@@ -3,7 +3,7 @@ import Foundation
 
 /// Modifies the plist file by adding the configuration key
 /// The value indicates the current runtime configuration
-class PlistModifier {
+public class PlistModifier {
 
     // MARK: - Properties
 
@@ -14,14 +14,14 @@ class PlistModifier {
 
     // MARK: - Lifecycle
 
-    init(plistFilePath: String, configurationKey: String) {
+    public init(plistFilePath: String, configurationKey: String) {
         self.plistFilePath = plistFilePath
         self.configurationKey = configurationKey
     }
 
     // MARK: - Methods
 
-    func addOrSetConfigurationKey() throws {
+    public func addOrSetConfigurationKey() throws {
         if invokeShell(with: plistBuddyPath, "-c", "Add :\(configurationKey) string \(configurationValue)", "\(plistFilePath)") != 0 {
             guard invokeShell(with: plistBuddyPath, "-c", "Set :\(configurationKey) \(configurationValue)", "\(plistFilePath)") == 0 else {
                 throw ConfigurationError(message: "Could not modify InfoPlist file")

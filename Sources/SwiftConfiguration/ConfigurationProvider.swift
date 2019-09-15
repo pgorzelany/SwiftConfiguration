@@ -1,10 +1,12 @@
 import Foundation
 
-class ConfigurationProvider {
+public class ConfigurationProvider {
+
+    public init() {}
 
     // MARK: Methods
 
-    func getConfigurations(at configurationPlistFilePath: String) throws -> [Configuration] {
+    public func getConfigurations(at configurationPlistFilePath: String) throws -> [Configuration] {
         guard let configurationsDictionary = NSDictionary(contentsOfFile: configurationPlistFilePath) else {
             throw ConfigurationError(message: "Could not load configuration dictionary at: \(configurationPlistFilePath)")
         }
@@ -19,7 +21,7 @@ class ConfigurationProvider {
         }
     }
 
-    func getConfiguration(at configurationPlistFilePath: String, for configurationName: String) throws -> Configuration {
+    public func getConfiguration(at configurationPlistFilePath: String, for configurationName: String) throws -> Configuration {
         let configurations = try getConfigurations(at: configurationPlistFilePath)
         guard let configuration = configurations.first(where: { $0.name == configurationName }) else {
             throw ConfigurationError(message: "Could not get configuration dictionary for configurationName: \(configurationName)")

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftConfiguration
 
 private let environment = ProcessInfo.processInfo.environment
 private let printer = MessagePrinter()

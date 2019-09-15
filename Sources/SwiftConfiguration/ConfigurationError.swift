@@ -1,6 +1,6 @@
 import Foundation
 
-struct ConfigurationError: LocalizedError {
+public struct ConfigurationError: LocalizedError {
 
     private let message: String
 
@@ -8,7 +8,7 @@ struct ConfigurationError: LocalizedError {
         self.message = message
     }
 
-    var errorDescription: String? {
+    public var errorDescription: String? {
         return message
     }
 }

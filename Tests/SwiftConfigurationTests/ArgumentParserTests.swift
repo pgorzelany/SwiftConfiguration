@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import SwiftConfiguration
 
 class ArgumentParserTests: XCTestCase {
 

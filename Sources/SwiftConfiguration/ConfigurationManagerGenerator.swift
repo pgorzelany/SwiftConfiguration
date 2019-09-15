@@ -1,6 +1,6 @@
 import Foundation
 
-class ConfigurationManagerGenerator {
+public class ConfigurationManagerGenerator {
 
     // MARK: - Properties
 
@@ -10,7 +10,7 @@ class ConfigurationManagerGenerator {
 
     // MARK: - Lifecycle
 
-    init(configurationPlistFilePath: String, outputFilePath: String, configurationKey: String) {
+    public init(configurationPlistFilePath: String, outputFilePath: String, configurationKey: String) {
         self.outputFilePath = outputFilePath
         self.configurationKey = configurationKey
         self.configurationPlistFilePath = configurationPlistFilePath
@@ -18,7 +18,7 @@ class ConfigurationManagerGenerator {
 
     // MARK: - Methods
 
-    func generateConfigurationManagerFile(for configurations: [Configuration], activeConfiguration: Configuration) throws {
+    public func generateConfigurationManagerFile(for configurations: [Configuration], activeConfiguration: Configuration) throws {
         let template = ConfigurationManagerTemplate(configurations: configurations,
                                                     activeConfiguration: activeConfiguration,
                                                     configurationKey: configurationKey,

@@ -1,15 +1,17 @@
 import Foundation
 
-struct Environment {
-    let plistFilePath: String
-    let activeConfigurationName: String
+public struct Environment {
+    public let plistFilePath: String
+    public let activeConfigurationName: String
 }
 
-class EnvironmentParser {
+public class EnvironmentParser {
+
+    public init() {}
 
     private let processEnvironemnt = ProcessInfo.processInfo.environment
 
-    func parseEnvironment() throws -> Environment {
+    public func parseEnvironment() throws -> Environment {
         guard let activeConfigurationName = processEnvironemnt["CONFIGURATION"] else {
             throw ConfigurationError(message: "Could not obtain the active configuration from the environment variables")
         }

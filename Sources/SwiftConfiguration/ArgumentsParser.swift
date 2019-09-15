@@ -1,12 +1,13 @@
-import Foundation
-
-struct ParsedArguments {
-    let configurationPlistFilePath: String
-    let outputFilePath: String
+public struct ParsedArguments {
+    public let configurationPlistFilePath: String
+    public let outputFilePath: String
 }
 
-class ArgumentsParser {
-    func parseArguments(_ arguments: [String]) throws -> ParsedArguments {
+public class ArgumentsParser {
+
+    public init() {}
+
+    public func parseArguments(_ arguments: [String]) throws -> ParsedArguments {
         guard arguments.count == 3 else {
             throw ConfigurationError(message: "Insufficient number of arguments provided. Refer to the docs.")
         }

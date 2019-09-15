@@ -1,9 +1,11 @@
 
-class ConfigurationValidator {
+public class ConfigurationValidator {
+
+    public init() {}
 
     // MARK: - Public Methods
 
-    func validateConfigurations(_ configurations: [Configuration], activeConfigurationName: String) throws {
+    public func validateConfigurations(_ configurations: [Configuration], activeConfigurationName: String) throws {
         let allKeys = configurations.reduce(Set<String>(), { (result, configuration) -> Set<String> in
                 return result.union(configuration.allKeys)
             })
