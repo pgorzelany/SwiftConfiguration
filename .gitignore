@@ -7,3 +7,4 @@ SwiftConfigurationGenerator.swift-e
 /Packages
 /*.xcodeproj
 xcuserdata/
+/.swiftpm
