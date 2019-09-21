@@ -240,7 +240,11 @@ public class ConfigurationProvider {
 
 public class ConfigurationValidator {
 
-    public init() {}
+    private let messagePrinter: MessagePrinter
+
+    public init(messagePrinter: MessagePrinter) {
+        self.messagePrinter = messagePrinter
+    }
 
     // MARK: - Public Methods
 
@@ -251,16 +255,13 @@ public class ConfigurationValidator {
         for configuration in configurations {
             let difference = allKeys.subtracting(configuration.allKeys)
             if !difference.isEmpty {
-                var warning = ""
                 for key in difference {
-                    warning += "Missing key: \(key) in configuration: \(configuration.name)\n"
+                    messagePrinter.printWarning("Missing key: \(key) in configuration: \(configuration.name)")
                 }
-                throw ConfigurationError(message: warning)
             }
         }
 
         let configurationNames = configurations.map({$0.name})
-
         guard configurationNames.contains(where: {$0 == activeConfigurationName}) else {
             throw ConfigurationError(message: "The configuration file does not contain a configuration for the active configuration (\(activeConfigurationName))")
         }
@@ -364,7 +365,7 @@ private let printer = MessagePrinter()
 private let environmentParser = EnvironmentParser()
 private let argumentsParser = ArgumentsParser()
 private let configurationProvider = ConfigurationProvider()
-private let configurationValidator = ConfigurationValidator()
+private let configurationValidator = ConfigurationValidator(messagePrinter: printer)
 private let configurationKey = "SwiftConfiguration.currentConfiguration"
 
 do {
@@ -375,11 +376,7 @@ do {
                                                                       outputFilePath: arguments.outputFilePath,
                                                                       configurationKey: configurationKey)
     let configurations = try configurationProvider.getConfigurations(at: arguments.configurationPlistFilePath)
-    do {
-        try configurationValidator.validateConfigurations(configurations, activeConfigurationName: environment.activeConfigurationName)
-    } catch {
-        printer.printWarning(error.localizedDescription)
-    }
+    try configurationValidator.validateConfigurations(configurations, activeConfigurationName: environment.activeConfigurationName)
     try infoPlistModifier.addOrSetConfigurationKey()
     let activeConfiguration = try configurationProvider.getConfiguration(at: arguments.configurationPlistFilePath, for: environment.activeConfigurationName)
     try configurationManagerGenerator.generateConfigurationManagerFile(for: configurations, activeConfiguration: activeConfiguration)

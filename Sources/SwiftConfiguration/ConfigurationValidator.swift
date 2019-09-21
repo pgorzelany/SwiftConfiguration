@@ -1,7 +1,11 @@
 
 public class ConfigurationValidator {
 
-    public init() {}
+    private let messagePrinter: MessagePrinter
+
+    public init(messagePrinter: MessagePrinter) {
+        self.messagePrinter = messagePrinter
+    }
 
     // MARK: - Public Methods
 
@@ -12,16 +16,13 @@ public class ConfigurationValidator {
         for configuration in configurations {
             let difference = allKeys.subtracting(configuration.allKeys)
             if !difference.isEmpty {
-                var warning = ""
                 for key in difference {
-                    warning += "Missing key: \(key) in configuration: \(configuration.name)\n"
+                    messagePrinter.printWarning("Missing key: \(key) in configuration: \(configuration.name)")
                 }
-                throw ConfigurationError(message: warning)
             }
         }
 
         let configurationNames = configurations.map({$0.name})
-
         guard configurationNames.contains(where: {$0 == activeConfigurationName}) else {
             throw ConfigurationError(message: "The configuration file does not contain a configuration for the active configuration (\(activeConfigurationName))")
         }

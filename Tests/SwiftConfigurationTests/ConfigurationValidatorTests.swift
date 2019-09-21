@@ -13,8 +13,9 @@ class ConfigurationValidatorTests: XCTestCase {
 
     let validConfigurationPath = "./Tests/SwiftConfigurationTests/ValidConfiguration.plist"
     let invalidConfigurationPath = "./Tests/SwiftConfigurationTests/InvalidConfiguration.plist"
+    let messagePrinter = MessagePrinter()
     lazy var configurationProvider = ConfigurationProvider()
-    let validator = ConfigurationValidator()
+    lazy var validator = ConfigurationValidator(messagePrinter: messagePrinter)
 
     func testValidatingValidConfigurationFile() {
         do {
