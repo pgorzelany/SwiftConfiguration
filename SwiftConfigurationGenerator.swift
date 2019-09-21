@@ -1,4 +1,7 @@
 #!/usr/bin/env xcrun --sdk macosx swift
+// A build phase script for fetching, validating and generating a Swift wrapper over configuration files in iOS projects
+// Source: https://github.com/pgorzelany/SwiftConfiguration
+
 public struct ParsedArguments {
     public let configurationPlistFilePath: String
     public let outputFilePath: String
