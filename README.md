@@ -49,7 +49,10 @@ Example:
 
 This will take the configuration file at ${PROJECT_DIR}/Example/Configuration.plist (input) validate the configuration file and generate a type safe wrapper over that file at ${PROJECT_DIR}/Example/ConfigurationProvider.generated.swift (output). 
 
-**Don't forget to add the generated file to your project sources so you can use it in your code!**
+To select the configuration you want to use, just open your Build Scheme and select one.
+![Build scheme setup](./Screenshots/build-scheme.png?raw=true "Build scheme setup")
+
+Once you build the project your configurations files will be validated and the Swift wrapper class generated. **Don't forget to add the generated file to your project sources so you can use it in your code!**
 
 ## Configuration file format
 
