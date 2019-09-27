@@ -36,7 +36,7 @@ Then you have to create a configuration.plist file that will contain all the var
 
 ## Usage
 
-# Build script
+### Build script
 Copy the <a href="./SwiftConfigurationGenerator.swift" download>SwiftConfigurationGenerator</a> file into your project structure.
 
 The recommended way to use SwiftConfigurationGenerator is to create a "Run Script" Build Phase (Xcode > Project > Targets > Your build target > Build Phases > New Run Script Phase). This way, the generator will be executed before each build and will ensure the integrity of your configuration wrapper. Be sure to put the script before the "Compile Sources" phase, as it has to generate the code first, before it can be used anywhere else. For convenience, you can just copy the following, and change the configuration appropriately.
