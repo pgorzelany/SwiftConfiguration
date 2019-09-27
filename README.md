@@ -22,7 +22,7 @@ Example code generation:
 
 ## Installation
 
-Just copy the SwiftConfigurationGenerator.swift file to your project. 
+Just copy the <a href="./SwiftConfigurationGenerator.swift" download>SwiftConfigurationGenerator</a> file into your project structure. 
 Since this is a build phase script there is currently no support for Cocoapods/Carthage/SwiftPM.
 
 ## Project setup
@@ -36,9 +36,7 @@ Then you have to create a configuration.plist file that will contain all the var
 
 ## Usage
 
-### Build script
-Copy the <a href="./SwiftConfigurationGenerator.swift" download>SwiftConfigurationGenerator</a> file into your project structure.
-
+#### Build script
 The recommended way to use SwiftConfigurationGenerator is to create a "Run Script" Build Phase (Xcode > Project > Targets > Your build target > Build Phases > New Run Script Phase). This way, the generator will be executed before each build and will ensure the integrity of your configuration wrapper. Be sure to put the script before the "Compile Sources" phase, as it has to generate the code first, before it can be used anywhere else. For convenience, you can just copy the following, and change the configuration appropriately.
 ```
 #Script debugging
@@ -61,12 +59,12 @@ $SWIFT_CONFIGURATION_GENERATOR_PATH $INPUT_PATH $OUTPUT_PATH
 
 ```
 
-Check the example project for an example build phase script.
-
 To select the configuration you want to use, just open your Build Scheme and select one.
 ![Build scheme setup](./Screenshots/build-scheme.png?raw=true "Build scheme setup")
 
 Once you build the project your configurations files will be validated and the Swift wrapper class generated. **Don't forget to add the generated file to your project sources so you can use it in your code!**
+
+You can check the example project to see how it is done in practice.
 
 ## Configuration file format
 
@@ -101,4 +99,4 @@ It does this in a few steps
 - It validates the configuration for missing variables. For example if you have a backend_url defined in your Dev configuration you should also have it defined in other configurations to safely use it. The script makes sure all the variables are well defined. If something is wrong you will get compile time error or warnings.
 - After the configuration file passes validation the script generates a Swift wrapper class which you can use to fetch the variables with autocomplete. You don't have to worry about name typos, variables missing in the file or wrong type casts.
 
-** This is the first iteration of this tool and I see a lot of potential to further improve it. If you have any suggestions don't hesitate to open an issue.
+** This is the first iteration of this tool and I see a lot of potential to further improve it. If you have any suggestions don't hesitate to open an issue.**
