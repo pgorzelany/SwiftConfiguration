@@ -99,4 +99,4 @@ It does this in a few steps
 - It validates the configuration for missing variables. For example if you have a backend_url defined in your Dev configuration you should also have it defined in other configurations to safely use it. The script makes sure all the variables are well defined. If something is wrong you will get compile time error or warnings.
 - After the configuration file passes validation the script generates a Swift wrapper class which you can use to fetch the variables with autocomplete. You don't have to worry about name typos, variables missing in the file or wrong type casts.
 
-** This is the first iteration of this tool and I see a lot of potential to further improve it. If you have any suggestions don't hesitate to open an issue.**
+**This is the first iteration of this tool and I see a lot of potential to further improve it. If you have any suggestions don't hesitate to open an issue.**
