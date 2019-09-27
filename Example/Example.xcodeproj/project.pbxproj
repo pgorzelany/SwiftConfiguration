@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A149FC8230E9F5500313E4D /* SwiftConfiguration.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A149FC7230E9F5500313E4D /* SwiftConfiguration.generated.swift */; };
 		5546DF36227C866800695595 /* Configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5546DF35227C866800695595 /* Configuration.plist */; };
+		55582FEB233EBCF5006FDC2A /* SwiftConfiguration.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55582FEA233EBCF5006FDC2A /* SwiftConfiguration.generated.swift */; };
 		55C4B874227C815F00584680 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4B873227C815F00584680 /* AppDelegate.swift */; };
 		55C4B876227C815F00584680 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C4B875227C815F00584680 /* ViewController.swift */; };
 		55C4B879227C815F00584680 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55C4B877227C815F00584680 /* Main.storyboard */; };
@@ -17,8 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2A149FC7230E9F5500313E4D /* SwiftConfiguration.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftConfiguration.generated.swift; sourceTree = "<group>"; };
 		5546DF35227C866800695595 /* Configuration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Configuration.plist; sourceTree = "<group>"; };
+		55582FEA233EBCF5006FDC2A /* SwiftConfiguration.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftConfiguration.generated.swift; path = Generated/SwiftConfiguration.generated.swift; sourceTree = SOURCE_ROOT; };
 		55C4B870227C815F00584680 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55C4B873227C815F00584680 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55C4B875227C815F00584680 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 		55C4B872227C815F00584680 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				2A149FC7230E9F5500313E4D /* SwiftConfiguration.generated.swift */,
+				55582FEA233EBCF5006FDC2A /* SwiftConfiguration.generated.swift */,
 				5546DF35227C866800695595 /* Configuration.plist */,
 				55C4B873227C815F00584680 /* AppDelegate.swift */,
 				55C4B875227C815F00584680 /* ViewController.swift */,
@@ -155,7 +155,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#Script debugging\nset -x\n\n# Get path to SwiftConfigurationGenerator script\nSWIFT_CONFIGURATION_GENERATOR_PATH=../SwiftConfigurationGenerator.swift\n\n# The input configuration file\nINPUT_PATH=$PROJECT_DIR/Example/Configuration.plist\n\n# The generated file output path\nOUTPUT_PATH=$PROJECT_DIR/Example/SwiftConfiguration.generated.swift\n\n# Add permission to generator for script execution\nchmod 755 $SWIFT_CONFIGURATION_GENERATOR_PATH\n\n# Execute the script\n$SWIFT_CONFIGURATION_GENERATOR_PATH $INPUT_PATH $OUTPUT_PATH\n";
+			shellScript = "#Script debugging\nset -x\n\n# Get path to SwiftConfigurationGenerator script\nSWIFT_CONFIGURATION_GENERATOR_PATH=../SwiftConfigurationGenerator.swift\n\n# The input configuration file\nINPUT_PATH=$PROJECT_DIR/Example/Configuration.plist\n\n# The generated file output path\nOUTPUT_PATH=$PROJECT_DIR/Generated/SwiftConfiguration.generated.swift\n\n# Add permission to generator for script execution\nchmod 755 $SWIFT_CONFIGURATION_GENERATOR_PATH\n\n# Execute the script\n$SWIFT_CONFIGURATION_GENERATOR_PATH $INPUT_PATH $OUTPUT_PATH\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -165,7 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				55C4B876227C815F00584680 /* ViewController.swift in Sources */,
-				2A149FC8230E9F5500313E4D /* SwiftConfiguration.generated.swift in Sources */,
+				55582FEB233EBCF5006FDC2A /* SwiftConfiguration.generated.swift in Sources */,
 				55C4B874227C815F00584680 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
