@@ -36,18 +36,32 @@ Then you have to create a configuration.plist file that will contain all the var
 
 ## Usage
 
+# Build script
 Copy the <a href="./SwiftConfigurationGenerator.swift" download>SwiftConfigurationGenerator</a> file into your project structure.
-Add a new run script in the Build Phase (the script should run before the Compile Sources phase):
+
+The recommended way to use SwiftConfigurationGenerator is to create a "Run Script" Build Phase (Xcode > Project > Targets > Your build target > Build Phases > New Run Script Phase). This way, the generator will be executed before each build and will ensure the integrity of your configuration wrapper. Be sure to put the script before the "Compile Sources" phase, as it has to generate the code first, before it can be used anywhere else. For convenience, you can just copy the following, and change the configuration appropriately.
 ```
-<PATH_TO_SwiftConfigurationGenerator.swift>  <PATH_TO_CONFIGURATION_FILE.plist> <GENERATED_WRAPPER_OUTPUT_PATH.swift>
+#Script debugging
+set -x
+
+# Get path to SwiftConfigurationGenerator script
+SWIFT_CONFIGURATION_GENERATOR_PATH=$PROJECT_DIR/Path_To_Generator/SwiftConfigurationGenerator.swift
+
+# The input configuration file
+INPUT_PATH=$PROJECT_DIR/Path_To_Configuration_File/Configuration.plist
+
+# The generated file output path
+OUTPUT_PATH=$PROJECT_DIR/Path_To_Generated_Output_file/SwiftConfiguration.generated.swift
+
+# Add permission to generator for script execution
+chmod 755 $SWIFT_CONFIGURATION_GENERATOR_PATH
+
+# Execute the script
+$SWIFT_CONFIGURATION_GENERATOR_PATH $INPUT_PATH $OUTPUT_PATH
+
 ```
 
 Check the example project for an example build phase script.
-
-Example:
-![Build phase setup](./Screenshots/build-phase.png?raw=true "Build phase setup")
-
-This will take the configuration file at ${PROJECT_DIR}/Example/Configuration.plist (input) validate the configuration file and generate a type safe wrapper over that file at ${PROJECT_DIR}/Example/ConfigurationProvider.generated.swift (output). 
 
 To select the configuration you want to use, just open your Build Scheme and select one.
 ![Build scheme setup](./Screenshots/build-scheme.png?raw=true "Build scheme setup")
