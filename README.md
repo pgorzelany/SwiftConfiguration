@@ -36,8 +36,8 @@ Then you have to create a configuration.plist file that will contain all the var
 
 ## Usage
 
-Copy the SwiftConfigurationGenerator.swift file into your project structure.
-Add a new run script in the Build Phase:
+Copy the <a download="test" href="./SwiftConfigurationGenerator.swift" title="SwiftConfigurationGenerator" source="./SwiftConfigurationGenerator.swift">SwiftConfigurationGenerator.swift</a> file into your project structure.
+Add a new run script in the Build Phase (the script should run before the Compile Sources phase):
 ```
 <PATH_TO_SwiftConfigurationGenerator.swift>  <PATH_TO_CONFIGURATION_FILE.plist> <GENERATED_WRAPPER_OUTPUT_PATH.swift>
 ```
