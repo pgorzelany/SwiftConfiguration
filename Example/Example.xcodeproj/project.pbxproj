@@ -155,7 +155,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../SwiftConfigurationGenerator.swift ${PROJECT_DIR}/Example/Configuration.plist ${PROJECT_DIR}/Example/SwiftConfiguration.generated.swift\n";
+			shellScript = "#Script debugging\nset -x\n\n# Get path to SwiftConfigurationGenerator script\nSWIFT_CONFIGURATION_GENERATOR_PATH=../SwiftConfigurationGenerator.swift\n\n# The input configuration file\nINPUT_PATH=$PROJECT_DIR/Example/Configuration.plist\n\n# The generated file output path\nOUTPUT_PATH=$PROJECT_DIR/Example/SwiftConfiguration.generated.swift\n\n# Add permission to generator for script execution\nchmod 755 $SWIFT_CONFIGURATION_GENERATOR_PATH\n\n# Execute the script\n$SWIFT_CONFIGURATION_GENERATOR_PATH $INPUT_PATH $OUTPUT_PATH\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
